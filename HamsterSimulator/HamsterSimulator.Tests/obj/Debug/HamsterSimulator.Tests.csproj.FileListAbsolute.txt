@@ -1,0 +1,15 @@
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.TestPlatform.AdapterUtilities.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\HamsterSimulator.Tests.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\HamsterSimulator.Tests.pdb
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterSimulator.Tests.csproj.AssemblyReference.cache
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterSimulator.Tests.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterS.22EB88A9.Up2Date
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterSimulator.Tests.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterSimulator.Tests.pdb

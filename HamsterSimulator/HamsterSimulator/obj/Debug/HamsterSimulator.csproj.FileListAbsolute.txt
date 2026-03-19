@@ -1,0 +1,10 @@
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.csproj.AssemblyReference.cache
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.Properties.Resources.resources
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.View.MainForm.resources
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.csproj.GenerateResource.cache
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\bin\Debug\HamsterSimulator.exe.config
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\bin\Debug\HamsterSimulator.exe
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\bin\Debug\HamsterSimulator.pdb
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.exe
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.pdb

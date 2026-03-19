@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../HamsterSimulator.Tests/HamsterSimulator.Tests.csproj" Id="c8280269-d244-4392-a441-5d0184b18b86" />
+  <Project Path="HamsterSimulator.csproj" Id="5ebe24e2-10b4-42c4-800d-55086c67914e" />
+</Solution>
