@@ -7,15 +7,15 @@
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -45,8 +45,7 @@
               "RelativeToolTip": "Model\\GameState.cs",
               "ViewState": "AgIAAG0AAAAAAAAAAAAewHoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:59:24.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-19T15:59:24.907Z"
             },
             {
               "$type": "Document",
@@ -58,8 +57,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:55:35.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-19T15:55:35.797Z"
             },
             {
               "$type": "Document",
@@ -83,8 +81,7 @@
               "RelativeToolTip": "View\\MainForm.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAkwO0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:45:38.83Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-19T15:45:38.83Z"
             },
             {
               "$type": "Document",
@@ -96,8 +93,7 @@
               "RelativeToolTip": "..\\HamsterSimulator.Tests\\UnitTest1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:24:55.601Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-19T15:24:55.601Z"
             },
             {
               "$type": "Document",
