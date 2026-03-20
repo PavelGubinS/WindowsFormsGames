@@ -96,7 +96,7 @@ namespace HamsterSimulator.Model
             else
             {
                 // Почти всегда проигрыш: дополнительный штраф
-                Balance = Math.Max(0, Balance - 20);
+                Balance = Math.Max(0, Balance - 10);
             }
         }
 
