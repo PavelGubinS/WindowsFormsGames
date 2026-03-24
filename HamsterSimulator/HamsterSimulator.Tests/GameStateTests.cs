@@ -12,35 +12,24 @@ namespace HamsterSimulator.Tests
             var game = new GameState();
             int initialBalance = game.Balance;
             game.Spin();
-            // Баланс должен уменьшиться как минимум на 10 (стоимость спина)
             Assert.IsTrue(game.Balance <= initialBalance - 10);
         }
 
         [TestMethod]
-        public void Spin_WhenBalanceIsZero_DoesNotChangeState()
+        public void Spin_DoesNothing_WhenBalanceLessThan10()
         {
-            // Arrange
             var game = new GameState();
-            // Обнуляем баланс (так делать не совсем правильно, но для теста ок)
-            // Лучше создать специальный метод, но пока так.
-            for (int i = 0; i < 10; i++) game.Spin(); // Спустим 100 монет
-
-            int balanceBefore = game.Balance;
+            while (game.Balance >= 10) game.Spin();
+            int zeroBalance = game.Balance;
             var numbersBefore = (int[])game.CurrentNumbers.Clone();
 
-            // Act
-            game.Spin(); // Попытка спина с 0 баланса
-
-            // Assert
-            Assert.AreEqual(balanceBefore, game.Balance);
-            // Проверим, что цифры могли измениться? Они не должны были.
-            // Но так как Spin() содержит return при IsGameOver или балансе <10,
-            // numbers не меняются.
+            game.Spin();
+            Assert.AreEqual(zeroBalance, game.Balance);
             CollectionAssert.AreEqual(numbersBefore, game.CurrentNumbers);
         }
 
         [TestMethod]
-        public void TakeLoan_IncreasesBalanceBy60_AndIncreasesLoanCount()
+        public void TakeLoan_IncreasesBalanceBy50_AndIncreasesLoanCount()
         {
             var game = new GameState();
             int initialBalance = game.Balance;
@@ -48,56 +37,115 @@ namespace HamsterSimulator.Tests
 
             game.TakeLoan();
 
-            Assert.AreEqual(initialBalance + 60, game.Balance);
+            Assert.AreEqual(initialBalance + 50, game.Balance);
             Assert.AreEqual(initialLoanCount + 1, game.LoanCount);
         }
 
         [TestMethod]
-        public void TakeLoan_CanOnlyBeUsedThreeTimes()
+        public void TakeLoan_CanBeUsedOnlyThreeTimes()
         {
-            // Arrange
             var game = new GameState();
+            for (int i = 0; i < 3; i++) game.TakeLoan();
+            int balanceAfterThree = game.Balance;
+            int loanCountAfterThree = game.LoanCount;
 
-            // Act
             game.TakeLoan();
-            game.TakeLoan();
-            game.TakeLoan();
-            int balanceAfterThreeLoans = game.Balance;
-            game.TakeLoan(); // Четвертый раз
 
-            // Assert
-            Assert.AreEqual(3, game.LoanCount);
-            Assert.AreEqual(balanceAfterThreeLoans, game.Balance); // Баланс не изменился
+            Assert.AreEqual(loanCountAfterThree, game.LoanCount);
+            Assert.AreEqual(balanceAfterThree, game.Balance);
         }
 
         [TestMethod]
-        public void GameOver_WhenBalanceZeroAndThreeLoansTaken()
+        public void TakeMicroLoan_IncreasesBalanceBy30_AndIncreasesMicroLoanCount()
         {
             var game = new GameState();
+            int initialBalance = game.Balance;
+            int initialMicroLoanCount = game.MicroLoanCount;
 
-            // Тратим все деньги до нуля (игнорируем штрафы, просто крутим, пока баланс не станет меньше 10)
-            while (game.Balance >= 10)
+            game.TakeMicroLoan();
+
+            Assert.AreEqual(initialBalance + 30, game.Balance);
+            Assert.AreEqual(initialMicroLoanCount + 1, game.MicroLoanCount);
+        }
+
+        [TestMethod]
+        public void MicroLoan_CanBeUsedOnlyFiveTimes()
+        {
+            var game = new GameState();
+            for (int i = 0; i < 5; i++) game.TakeMicroLoan();
+            int balanceAfterFive = game.Balance;
+            int microLoanCountAfterFive = game.MicroLoanCount;
+
+            game.TakeMicroLoan();
+
+            Assert.AreEqual(microLoanCountAfterFive, game.MicroLoanCount);
+            Assert.AreEqual(balanceAfterFive, game.Balance);
+        }
+
+        [TestMethod]
+        public void Spin_SubtractsSpinPenalty()
+        {
+            var game = new GameState();
+            game.TakeLoan();
+            int initialBalance = game.Balance;
+            game.Spin();
+            Assert.IsTrue(game.Balance <= initialBalance - 12);
+        }
+
+        [TestMethod]
+        public void GameOver_WhenBalanceZeroAndAllLoansUsed()
+        {
+            var game = new GameState();
+            while (game.Balance >= 10) game.Spin();
+
+            for (int i = 0; i < 3; i++) game.TakeLoan();
+            for (int i = 0; i < 5; i++) game.TakeMicroLoan();
+
+            while (game.Balance >= 10 + game.CalculateSpinPenalty())
                 game.Spin();
 
-            // Берём три займа
-            for (int i = 0; i < 3; i++)
-                game.TakeLoan();
-
-            // Теперь баланс должен стать положительным (60*3 = 180), но мы хотим его обнулить.
-            // Снова тратим всё до нуля.
-            while (game.Balance >= 10)
-                game.Spin();
-
-            // Вызываем спин, чтобы проверить GameOver (он сработает, даже если баланс < 10,
-            // потому что внутри Spin есть вызов CheckForGameOver)
             game.Spin();
 
             Assert.IsTrue(game.IsGameOver);
             Assert.IsTrue(game.GameOverMessage.Contains("побрили хомяка"));
         }
 
-        // Более правильный тест на GameOver, если бы мы могли принудительно вызвать проверку.
-        // Но для простоты примера считаем, что мы исправили Spin.
-        // В реальности, в Spin нужно убрать ранний выход и проверять IsGameOver иначе.
+        [TestMethod]
+        public void GameOver_WhenBalanceInsufficientForSpinAndPenalty()
+        {
+            var game = new GameState();
+            game.TakeLoan();
+            game.TakeLoan();
+            game.TakeLoan();
+            game.TakeMicroLoan();
+            game.TakeMicroLoan();
+
+            while (game.Balance >= 10 + game.CalculateSpinPenalty())
+                game.Spin();
+
+            int balanceBefore = game.Balance;
+            game.Spin();
+
+            Assert.IsTrue(game.IsGameOver);
+            Assert.AreEqual(balanceBefore, game.Balance);
+        }
+
+        [TestMethod]
+        public void ResetGame_RestoresInitialState()
+        {
+            var game = new GameState();
+            game.Spin();
+            game.TakeLoan();
+            game.TakeMicroLoan();
+
+            game.ResetGame();
+
+            Assert.AreEqual(100, game.Balance);
+            Assert.AreEqual(0, game.LoanCount);
+            Assert.AreEqual(0, game.MicroLoanCount);
+            Assert.IsFalse(game.IsGameOver);
+            for (int i = 0; i < game.CurrentNumbers.Length; i++)
+                Assert.AreEqual(0, game.CurrentNumbers[i]);
+        }
     }
 }

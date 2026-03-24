@@ -1,4 +1,3 @@
-using System;
 using HamsterSimulator.Model;
 using HamsterSimulator.View;
 
@@ -15,36 +14,41 @@ namespace HamsterSimulator.Controller
             _model = new GameState();
         }
 
-        // Метод для вращения рулетки
         public void Spin()
         {
             if (_model.IsGameOver) return;
-            if (_model.Balance < 10) return;
+            if (_model.Balance < 10 + _model.CalculateSpinPenalty()) return;
 
             _model.Spin();
-            _view.UpdateUI(); // обновляем представление
+            _view.UpdateUI();
         }
 
-        // Метод для взятия займа
         public void TakeLoan()
         {
             if (_model.IsGameOver) return;
-
             _model.TakeLoan();
             _view.UpdateUI();
         }
 
-        // Метод для сброса игры
+        public void TakeMicroLoan()
+        {
+            if (_model.IsGameOver) return;
+            _model.TakeMicroLoan();
+            _view.UpdateUI();
+        }
+
         public void ResetGame()
         {
             _model.ResetGame();
             _view.UpdateUI();
         }
 
-        // Свойства для доступа к состоянию модели (чтобы представление могло их отображать)
         public int Balance => _model.Balance;
         public int[] CurrentNumbers => _model.CurrentNumbers;
         public bool IsGameOver => _model.IsGameOver;
         public string GameOverMessage => _model.GameOverMessage;
+        public int LoanCount => _model.LoanCount;
+        public int MicroLoanCount => _model.MicroLoanCount;
+        public int SpinPenalty => _model.CalculateSpinPenalty();
     }
 }

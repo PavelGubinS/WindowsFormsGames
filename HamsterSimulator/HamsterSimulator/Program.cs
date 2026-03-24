@@ -1,6 +1,6 @@
-using HamsterSimulator.View;
 using System;
 using System.Windows.Forms;
+using HamsterSimulator.View;
 
 namespace HamsterSimulator
 {
