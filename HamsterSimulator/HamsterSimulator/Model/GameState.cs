@@ -73,7 +73,7 @@ namespace HamsterSimulator.Model
             if (LoanCount < 3)
             {
                 LoanCount++;
-                Balance += 50; // Даем займ
+                Balance += 60; // Даем займ
             }
             // Если займов больше нет, просто ничего не делаем.
         }
