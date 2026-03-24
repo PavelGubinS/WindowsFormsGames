@@ -212,7 +212,7 @@ namespace HamsterSimulator.View
             // 
             this.lblBalance.AutoSize = true;
             this.lblBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblBalance.Location = new System.Drawing.Point(668, 65);
+            this.lblBalance.Location = new System.Drawing.Point(652, 62);
             this.lblBalance.Name = "lblBalance";
             this.lblBalance.Size = new System.Drawing.Size(130, 29);
             this.lblBalance.TabIndex = 2;
@@ -244,7 +244,7 @@ namespace HamsterSimulator.View
             // 
             this.lblLoanCount.AutoSize = true;
             this.lblLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblLoanCount.Location = new System.Drawing.Point(668, 107);
+            this.lblLoanCount.Location = new System.Drawing.Point(666, 104);
             this.lblLoanCount.Name = "lblLoanCount";
             this.lblLoanCount.Size = new System.Drawing.Size(116, 25);
             this.lblLoanCount.TabIndex = 6;
@@ -254,7 +254,7 @@ namespace HamsterSimulator.View
             // 
             this.lblMicroLoanCount.AutoSize = true;
             this.lblMicroLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblMicroLoanCount.Location = new System.Drawing.Point(640, 142);
+            this.lblMicroLoanCount.Location = new System.Drawing.Point(640, 140);
             this.lblMicroLoanCount.Name = "lblMicroLoanCount";
             this.lblMicroLoanCount.Size = new System.Drawing.Size(173, 25);
             this.lblMicroLoanCount.TabIndex = 7;
