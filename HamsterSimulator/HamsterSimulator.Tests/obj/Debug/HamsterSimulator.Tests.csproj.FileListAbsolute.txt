@@ -13,3 +13,6 @@ C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimula
 C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterS.22EB88A9.Up2Date
 C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterSimulator.Tests.dll
 C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\obj\Debug\HamsterSimulator.Tests.pdb
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\HamsterSimulator.exe
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\HamsterSimulator.pdb
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator.Tests\bin\Debug\HamsterSimulator.exe.config

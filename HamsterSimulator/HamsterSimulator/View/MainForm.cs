@@ -47,7 +47,7 @@ namespace HamsterSimulator.View
                 UpdateUI();
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             if (lblBalance == null || lblNumbers == null || lblGameOver == null) return;
 

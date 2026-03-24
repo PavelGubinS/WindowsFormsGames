@@ -7,17 +7,13 @@ namespace HamsterSimulator.Tests
     public class GameStateTests
     {
         [TestMethod]
-        public void Spin_DecreasesBalanceBy10()
+        public void Spin_DecreasesBalanceByAtLeast10_WhenEnoughMoney()
         {
-            // Arrange
             var game = new GameState();
             int initialBalance = game.Balance;
-
-            // Act
             game.Spin();
-
-            // Assert
-            Assert.AreEqual(initialBalance - 10, game.Balance);
+            // Баланс должен уменьшиться как минимум на 10 (стоимость спина)
+            Assert.IsTrue(game.Balance <= initialBalance - 10);
         }
 
         [TestMethod]
@@ -44,18 +40,16 @@ namespace HamsterSimulator.Tests
         }
 
         [TestMethod]
-        public void TakeLoan_IncreasesBalanceAndCount()
+        public void TakeLoan_IncreasesBalanceBy60_AndIncreasesLoanCount()
         {
-            // Arrange
             var game = new GameState();
             int initialBalance = game.Balance;
+            int initialLoanCount = game.LoanCount;
 
-            // Act
             game.TakeLoan();
 
-            // Assert
-            Assert.AreEqual(initialBalance + 50, game.Balance);
-            Assert.AreEqual(1, game.LoanCount);
+            Assert.AreEqual(initialBalance + 60, game.Balance);
+            Assert.AreEqual(initialLoanCount + 1, game.LoanCount);
         }
 
         [TestMethod]
@@ -79,37 +73,27 @@ namespace HamsterSimulator.Tests
         [TestMethod]
         public void GameOver_WhenBalanceZeroAndThreeLoansTaken()
         {
-            // Arrange
             var game = new GameState();
-            // Тратим деньги до 0 (10 спинов по 10 = 100)
-            for (int i = 0; i < 10; i++) game.Spin();
-            // Берем 3 займа
-            game.TakeLoan();
-            game.TakeLoan();
-            game.TakeLoan();
 
-            // Act
-            // Пытаемся крутить дальше (денег нет, спины не проходят)
+            // Тратим все деньги до нуля (игнорируем штрафы, просто крутим, пока баланс не станет меньше 10)
+            while (game.Balance >= 10)
+                game.Spin();
+
+            // Берём три займа
+            for (int i = 0; i < 3; i++)
+                game.TakeLoan();
+
+            // Теперь баланс должен стать положительным (60*3 = 180), но мы хотим его обнулить.
+            // Снова тратим всё до нуля.
+            while (game.Balance >= 10)
+                game.Spin();
+
+            // Вызываем спин, чтобы проверить GameOver (он сработает, даже если баланс < 10,
+            // потому что внутри Spin есть вызов CheckForGameOver)
             game.Spin();
-            game.Spin(); // Несколько спинов
 
-            // Assert
-            // Проверим, что флаг GameOver установлен
-            // Важно! Наша модель выставляет IsGameOver в методе CheckForGameOver,
-            // который вызывается после Spin. Но если Spin не выполняется из-за денег,
-            // то CheckForGameOver не вызовется.
-            // Значит, нам нужно вызвать Spin еще раз, но как?
-            // Упростим: Добавим публичный метод CheckGameOver или будем вызывать Spin,
-            // но сделаем так, чтобы Spin вызывал CheckForGameOver даже если денег нет.
-            // Исправим это в следующей версии. Пока тест будет сложным.
-
-            // Просто проверим, что баланс 0 и займов 3, а флаг пока false.
-            Assert.AreEqual(0, game.Balance);
-            Assert.AreEqual(3, game.LoanCount);
-            Assert.IsFalse(game.IsGameOver); // Флаг не установлен, т.к. Spin не вызвал проверку.
-
-            // Чтобы тест прошел, нужно немного изменить Spin.
-            // Давай представим, что мы это сделали.
+            Assert.IsTrue(game.IsGameOver);
+            Assert.IsTrue(game.GameOverMessage.Contains("побрили хомяка"));
         }
 
         // Более правильный тест на GameOver, если бы мы могли принудительно вызвать проверку.
