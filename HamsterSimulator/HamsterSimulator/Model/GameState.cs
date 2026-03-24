@@ -117,6 +117,10 @@ namespace HamsterSimulator.Model
             double result = (sum / MammothConstant) % 15;
             return result;
         }
+        public int CalculateTotalSpinCost()
+        {
+            return 10 + CalculateSpinPenalty();
+        }
 
         private void CheckForGameOver()
         {

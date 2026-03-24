@@ -17,7 +17,7 @@ namespace HamsterSimulator.Controller
         public void Spin()
         {
             if (_model.IsGameOver) return;
-            if (_model.Balance < 10 + _model.CalculateSpinPenalty()) return;
+            if (_model.Balance < _model.CalculateTotalSpinCost()) return;
 
             _model.Spin();
             _view.UpdateUI();
@@ -50,5 +50,6 @@ namespace HamsterSimulator.Controller
         public int LoanCount => _model.LoanCount;
         public int MicroLoanCount => _model.MicroLoanCount;
         public int SpinPenalty => _model.CalculateSpinPenalty();
+        public int TotalSpinCost => _model.CalculateTotalSpinCost();
     }
 }

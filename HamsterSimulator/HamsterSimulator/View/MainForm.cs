@@ -75,10 +75,13 @@ namespace HamsterSimulator.View
             {
                 lblGameOver.Visible = false;
 
-                bool canSpin = !_isAnimating && _controller.Balance >= 10 + _controller.SpinPenalty;
+                bool canSpin = !_isAnimating && _controller.Balance >= _controller.TotalSpinCost;
+                bool canTakeLoan = !_isAnimating && _controller.LoanCount < 3;
+                bool canTakeMicroLoan = !_isAnimating && _controller.MicroLoanCount < 5;
+
                 btnAction.Enabled = canSpin;
-                btnLoan.Enabled = !_isAnimating && _controller.LoanCount < 3;
-                btnMicroLoan.Enabled = !_isAnimating && _controller.MicroLoanCount < 5;
+                btnLoan.Enabled = canTakeLoan;
+                btnMicroLoan.Enabled = canTakeMicroLoan;
             }
 
             string[] buttonTexts = { "ДЕП", "ДОДЕП", "ЛАСТ ДЕП" };
@@ -106,7 +109,7 @@ namespace HamsterSimulator.View
         private void BtnAction_Click(object sender, EventArgs e)
         {
             if (_controller.IsGameOver || _isAnimating) return;
-            if (_controller.Balance < 10 + _controller.SpinPenalty) return;
+            if (_controller.Balance < _controller.TotalSpinCost) return;
 
             _buttonClickCount++;
 
@@ -147,19 +150,13 @@ namespace HamsterSimulator.View
                 {
                     _animationTimer.Stop();
                     _isAnimating = false;
-                    btnAction.Enabled = true;
-                    btnLoan.Enabled = true;
-                    btnMicroLoan.Enabled = true;
+                    UpdateUI();
                 }
 
                 if (_controller.IsGameOver)
                 {
                     _controller.ResetGame();
                     _buttonClickCount = 0;
-                    UpdateUI();
-                }
-                else
-                {
                     UpdateUI();
                 }
             }
@@ -181,9 +178,9 @@ namespace HamsterSimulator.View
             // btnAction
             // 
             this.btnAction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnAction.Location = new System.Drawing.Point(630, 332);
+            this.btnAction.Location = new System.Drawing.Point(612, 332);
             this.btnAction.Name = "btnAction";
-            this.btnAction.Size = new System.Drawing.Size(219, 90);
+            this.btnAction.Size = new System.Drawing.Size(222, 82);
             this.btnAction.TabIndex = 0;
             this.btnAction.Text = "ДЕП";
             this.btnAction.UseVisualStyleBackColor = true;
@@ -191,9 +188,9 @@ namespace HamsterSimulator.View
             // btnLoan
             // 
             this.btnLoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnLoan.Location = new System.Drawing.Point(448, 448);
+            this.btnLoan.Location = new System.Drawing.Point(834, 441);
             this.btnLoan.Name = "btnLoan";
-            this.btnLoan.Size = new System.Drawing.Size(251, 102);
+            this.btnLoan.Size = new System.Drawing.Size(192, 71);
             this.btnLoan.TabIndex = 1;
             this.btnLoan.Text = "Займ";
             this.btnLoan.UseVisualStyleBackColor = true;
@@ -201,9 +198,9 @@ namespace HamsterSimulator.View
             // btnMicroLoan
             // 
             this.btnMicroLoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnMicroLoan.Location = new System.Drawing.Point(777, 448);
+            this.btnMicroLoan.Location = new System.Drawing.Point(416, 437);
             this.btnMicroLoan.Name = "btnMicroLoan";
-            this.btnMicroLoan.Size = new System.Drawing.Size(267, 102);
+            this.btnMicroLoan.Size = new System.Drawing.Size(192, 75);
             this.btnMicroLoan.TabIndex = 5;
             this.btnMicroLoan.Text = "Микрозайм";
             this.btnMicroLoan.UseVisualStyleBackColor = true;
@@ -212,7 +209,7 @@ namespace HamsterSimulator.View
             // 
             this.lblBalance.AutoSize = true;
             this.lblBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblBalance.Location = new System.Drawing.Point(652, 62);
+            this.lblBalance.Location = new System.Drawing.Point(640, 74);
             this.lblBalance.Name = "lblBalance";
             this.lblBalance.Size = new System.Drawing.Size(130, 29);
             this.lblBalance.TabIndex = 2;
@@ -222,7 +219,7 @@ namespace HamsterSimulator.View
             // 
             this.lblNumbers.AutoSize = true;
             this.lblNumbers.Font = new System.Drawing.Font("Courier New", 26F, System.Drawing.FontStyle.Bold);
-            this.lblNumbers.Location = new System.Drawing.Point(557, 266);
+            this.lblNumbers.Location = new System.Drawing.Point(540, 262);
             this.lblNumbers.Name = "lblNumbers";
             this.lblNumbers.Size = new System.Drawing.Size(360, 50);
             this.lblNumbers.TabIndex = 3;
@@ -233,7 +230,7 @@ namespace HamsterSimulator.View
             this.lblGameOver.AutoSize = true;
             this.lblGameOver.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
             this.lblGameOver.ForeColor = System.Drawing.Color.Red;
-            this.lblGameOver.Location = new System.Drawing.Point(531, 566);
+            this.lblGameOver.Location = new System.Drawing.Point(520, 550);
             this.lblGameOver.Name = "lblGameOver";
             this.lblGameOver.Size = new System.Drawing.Size(329, 31);
             this.lblGameOver.TabIndex = 4;
@@ -244,7 +241,7 @@ namespace HamsterSimulator.View
             // 
             this.lblLoanCount.AutoSize = true;
             this.lblLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblLoanCount.Location = new System.Drawing.Point(666, 104);
+            this.lblLoanCount.Location = new System.Drawing.Point(650, 116);
             this.lblLoanCount.Name = "lblLoanCount";
             this.lblLoanCount.Size = new System.Drawing.Size(116, 25);
             this.lblLoanCount.TabIndex = 6;
@@ -254,19 +251,18 @@ namespace HamsterSimulator.View
             // 
             this.lblMicroLoanCount.AutoSize = true;
             this.lblMicroLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblMicroLoanCount.Location = new System.Drawing.Point(640, 140);
+            this.lblMicroLoanCount.Location = new System.Drawing.Point(625, 156);
             this.lblMicroLoanCount.Name = "lblMicroLoanCount";
             this.lblMicroLoanCount.Size = new System.Drawing.Size(173, 25);
             this.lblMicroLoanCount.TabIndex = 7;
             this.lblMicroLoanCount.Text = "Микрозаймы: 0/5";
-            this.lblMicroLoanCount.Click += new System.EventHandler(this.lblMicroLoanCount_Click);
             // 
             // lblPenalty
             // 
             this.lblPenalty.AutoSize = true;
             this.lblPenalty.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.lblPenalty.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblPenalty.Location = new System.Drawing.Point(640, 192);
+            this.lblPenalty.Location = new System.Drawing.Point(625, 196);
             this.lblPenalty.Name = "lblPenalty";
             this.lblPenalty.Size = new System.Drawing.Size(187, 25);
             this.lblPenalty.TabIndex = 8;
@@ -302,10 +298,5 @@ namespace HamsterSimulator.View
         private System.Windows.Forms.Label lblLoanCount;
         private System.Windows.Forms.Label lblMicroLoanCount;
         private System.Windows.Forms.Label lblPenalty;
-
-        private void lblMicroLoanCount_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

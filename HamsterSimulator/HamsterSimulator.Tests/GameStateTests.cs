@@ -86,9 +86,10 @@ namespace HamsterSimulator.Tests
         public void Spin_SubtractsSpinPenalty()
         {
             var game = new GameState();
-            game.TakeLoan();
-            int initialBalance = game.Balance;
+            game.TakeLoan(); // LoanCount = 1, penalty = 2
+            int initialBalance = game.Balance; // 100 + 50 = 150
             game.Spin();
+            // Баланс должен уменьшиться как минимум на 10 (стоимость) + 2 (штраф)
             Assert.IsTrue(game.Balance <= initialBalance - 12);
         }
 
@@ -128,6 +129,26 @@ namespace HamsterSimulator.Tests
 
             Assert.IsTrue(game.IsGameOver);
             Assert.AreEqual(balanceBefore, game.Balance);
+        }
+
+        [TestMethod]
+        public void GameOver_WhenDeadEnd_NoMoneyAndNoLoansLeft()
+        {
+            var game = new GameState();
+
+            // Используем все займы
+            for (int i = 0; i < 3; i++) game.TakeLoan();
+            for (int i = 0; i < 5; i++) game.TakeMicroLoan();
+
+            // Спускаем баланс ниже стоимости спина
+            while (game.Balance >= game.CalculateTotalSpinCost())
+                game.Spin();
+
+            // Вызываем спин, который должен сработать CheckForDeadEnd
+            game.Spin();
+
+            Assert.IsTrue(game.IsGameOver);
+            Assert.IsTrue(game.GameOverMessage.Contains("побрили хомяка"));
         }
 
         [TestMethod]
