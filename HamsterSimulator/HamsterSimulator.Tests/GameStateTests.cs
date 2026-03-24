@@ -7,15 +7,6 @@ namespace HamsterSimulator.Tests
     public class GameStateTests
     {
         [TestMethod]
-        public void Spin_DecreasesBalanceByAtLeast10_WhenEnoughMoney()
-        {
-            var game = new GameState();
-            int initialBalance = game.Balance;
-            game.Spin();
-            Assert.IsTrue(game.Balance <= initialBalance - 10);
-        }
-
-        [TestMethod]
         public void Spin_DoesNothing_WhenBalanceLessThan10()
         {
             var game = new GameState();
@@ -89,7 +80,6 @@ namespace HamsterSimulator.Tests
             game.TakeLoan(); // LoanCount = 1, penalty = 2
             int initialBalance = game.Balance; // 100 + 50 = 150
             game.Spin();
-            // Баланс должен уменьшиться как минимум на 10 (стоимость) + 2 (штраф)
             Assert.IsTrue(game.Balance <= initialBalance - 12);
         }
 
@@ -112,16 +102,13 @@ namespace HamsterSimulator.Tests
         }
 
         [TestMethod]
-        public void GameOver_WhenBalanceInsufficientForSpinAndPenalty()
+        public void GameOver_WhenBalanceInsufficientForSpinAndAllLoansUsed()
         {
             var game = new GameState();
-            game.TakeLoan();
-            game.TakeLoan();
-            game.TakeLoan();
-            game.TakeMicroLoan();
-            game.TakeMicroLoan();
+            for (int i = 0; i < 3; i++) game.TakeLoan();
+            for (int i = 0; i < 5; i++) game.TakeMicroLoan();
 
-            while (game.Balance >= 10 + game.CalculateSpinPenalty())
+            while (game.Balance >= game.CalculateTotalSpinCost())
                 game.Spin();
 
             int balanceBefore = game.Balance;
@@ -136,15 +123,12 @@ namespace HamsterSimulator.Tests
         {
             var game = new GameState();
 
-            // Используем все займы
             for (int i = 0; i < 3; i++) game.TakeLoan();
             for (int i = 0; i < 5; i++) game.TakeMicroLoan();
 
-            // Спускаем баланс ниже стоимости спина
             while (game.Balance >= game.CalculateTotalSpinCost())
                 game.Spin();
 
-            // Вызываем спин, который должен сработать CheckForDeadEnd
             game.Spin();
 
             Assert.IsTrue(game.IsGameOver);

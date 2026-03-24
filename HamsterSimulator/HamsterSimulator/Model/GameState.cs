@@ -29,6 +29,7 @@ namespace HamsterSimulator.Model
             GameOverMessage = string.Empty;
             for (int i = 0; i < CurrentNumbers.Length; i++)
                 CurrentNumbers[i] = 0;
+            CheckGameStatus(); // проверяем после сброса
         }
 
         public int CalculateSpinPenalty()
@@ -36,15 +37,19 @@ namespace HamsterSimulator.Model
             return LoanCount * 2 + MicroLoanCount * 1;
         }
 
+        public int CalculateTotalSpinCost()
+        {
+            return 10 + CalculateSpinPenalty();
+        }
+
         public void Spin()
         {
             if (IsGameOver) return;
 
-            int totalCost = 10 + CalculateSpinPenalty();
+            int totalCost = CalculateTotalSpinCost();
             if (Balance < totalCost)
             {
-                IsGameOver = true;
-                GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
+                CheckGameStatus();
                 return;
             }
 
@@ -56,7 +61,7 @@ namespace HamsterSimulator.Model
             }
 
             ApplyCombinationEffects();
-            CheckForGameOver();
+            CheckGameStatus();
         }
 
         public void TakeLoan()
@@ -67,6 +72,7 @@ namespace HamsterSimulator.Model
             {
                 LoanCount++;
                 Balance += 50;
+                CheckGameStatus();
             }
         }
 
@@ -78,6 +84,7 @@ namespace HamsterSimulator.Model
             {
                 MicroLoanCount++;
                 Balance += 30;
+                CheckGameStatus();
             }
         }
 
@@ -117,9 +124,11 @@ namespace HamsterSimulator.Model
             double result = (sum / MammothConstant) % 15;
             return result;
         }
-        public int CalculateTotalSpinCost()
+
+        private void CheckGameStatus()
         {
-            return 10 + CalculateSpinPenalty();
+            CheckForGameOver();
+            CheckForDeadEnd();
         }
 
         private void CheckForGameOver()
@@ -130,6 +139,20 @@ namespace HamsterSimulator.Model
                 GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
             }
             if (Balance < 0) Balance = 0;
+        }
+
+        private void CheckForDeadEnd()
+        {
+            if (IsGameOver) return;
+
+            bool cannotSpin = Balance < CalculateTotalSpinCost();
+            bool noLoansLeft = LoanCount >= 3 && MicroLoanCount >= 5;
+
+            if (cannotSpin && noLoansLeft)
+            {
+                IsGameOver = true;
+                GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
+            }
         }
     }
 }
