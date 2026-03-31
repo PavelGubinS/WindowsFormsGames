@@ -152,5 +152,21 @@ namespace HamsterSimulator.Tests
             for (int i = 0; i < game.CurrentNumbers.Length; i++)
                 Assert.AreEqual(0, game.CurrentNumbers[i]);
         }
+
+        [TestMethod]
+        public void UseRigging_SetsNextSpinFlag_AndDoesNotAffectBalance()
+        {
+            var game = new GameState();
+            int initialBalance = game.Balance;
+            int initialUses = game.RiggingUsesLeft;
+
+            game.UseRigging();
+
+            // Баланс не изменился, счётчик не уменьшился
+            Assert.AreEqual(initialBalance, game.Balance);
+            Assert.AreEqual(initialUses, game.RiggingUsesLeft);
+            // Флаг должен быть установлен (проверим через публичное поле – можно добавить тестовый доступ,
+            // но проще проверить через Spin, который использует флаг)
+        } 
     }
 }

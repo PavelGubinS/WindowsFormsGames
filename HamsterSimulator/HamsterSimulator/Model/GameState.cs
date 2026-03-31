@@ -6,7 +6,7 @@ namespace HamsterSimulator.Model
     {
         private const double MammothConstant = 0.42;
         private const double HamsterWarmupCoefficient = 1.15;
-        private readonly Random _random = new Random();
+        private readonly Random _random;
 
         public int Balance { get; private set; }
         public int LoanCount { get; private set; }
@@ -15,8 +15,19 @@ namespace HamsterSimulator.Model
         public bool IsGameOver { get; private set; }
         public string GameOverMessage { get; private set; } = string.Empty;
 
-        public GameState()
+        private int _riggingUsesLeft;
+        private bool _isNextSpinRigged;
+
+        public int RiggingUsesLeft => _riggingUsesLeft;
+        public bool CanUseRigging => !IsGameOver && _riggingUsesLeft > 0;
+
+        public GameState() : this(new Random())
         {
+        }
+
+        public GameState(Random random)
+        {
+            _random = random;
             ResetGame();
         }
 
@@ -25,11 +36,13 @@ namespace HamsterSimulator.Model
             Balance = 100;
             LoanCount = 0;
             MicroLoanCount = 0;
+            _riggingUsesLeft = 3;
+            _isNextSpinRigged = false;
             IsGameOver = false;
             GameOverMessage = string.Empty;
             for (int i = 0; i < CurrentNumbers.Length; i++)
                 CurrentNumbers[i] = 0;
-            CheckGameStatus(); // проверяем после сброса
+            CheckGameStatus();
         }
 
         public int CalculateSpinPenalty()
@@ -60,7 +73,18 @@ namespace HamsterSimulator.Model
                 CurrentNumbers[i] = _random.Next(0, 10);
             }
 
-            ApplyCombinationEffects();
+            if (_isNextSpinRigged)
+            {
+                // Гарантированный выигрыш
+                Balance += 50;
+                _isNextSpinRigged = false;
+                _riggingUsesLeft--;
+            }
+            else
+            {
+                ApplyCombinationEffects();
+            }
+
             CheckGameStatus();
         }
 
@@ -86,6 +110,14 @@ namespace HamsterSimulator.Model
                 Balance += 30;
                 CheckGameStatus();
             }
+        }
+
+        // Активирует подкрутку на следующий спин (если есть использования)
+        public void UseRigging()
+        {
+            if (!CanUseRigging) return;
+            _isNextSpinRigged = true;
+            // Счётчик не уменьшается здесь, он уменьшится при реальном спине
         }
 
         private void ApplyCombinationEffects()

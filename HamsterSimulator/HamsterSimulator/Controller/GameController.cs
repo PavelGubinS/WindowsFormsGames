@@ -37,6 +37,14 @@ namespace HamsterSimulator.Controller
             _view.UpdateUI();
         }
 
+        // Новый метод для подкрутки
+        public void UseRigging()
+        {
+            if (_model.IsGameOver) return;
+            _model.UseRigging();
+            _view.UpdateUI();
+        }
+
         public void ResetGame()
         {
             _model.ResetGame();
@@ -51,5 +59,7 @@ namespace HamsterSimulator.Controller
         public int MicroLoanCount => _model.MicroLoanCount;
         public int SpinPenalty => _model.CalculateSpinPenalty();
         public int TotalSpinCost => _model.CalculateTotalSpinCost();
+        public int RiggingUsesLeft => _model.RiggingUsesLeft;
+        public bool CanUseRigging => _model.CanUseRigging;
     }
 }
