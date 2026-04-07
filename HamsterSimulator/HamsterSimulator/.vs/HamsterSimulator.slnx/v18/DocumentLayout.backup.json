@@ -3,27 +3,27 @@
   "WorkspaceRootPath": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8280269-D244-4392-A441-5D0184B18B86}|..\\HamsterSimulator.Tests\\HamsterSimulator.Tests.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator.tests\\gamestatetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:model\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\controller\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:controller\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8280269-D244-4392-A441-5D0184B18B86}|..\\HamsterSimulator.Tests\\HamsterSimulator.Tests.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator.tests\\gamestatetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,11 +33,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -50,33 +50,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "GameState.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Model\\GameState.cs",
               "RelativeDocumentMoniker": "Model\\GameState.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Model\\GameState.cs",
               "RelativeToolTip": "Model\\GameState.cs",
-              "ViewState": "AgIAAIYAAAAAAAAAAAAiwL0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAWwDkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-19T15:59:24.907Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "GameController.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Controller\\GameController.cs",
               "RelativeDocumentMoniker": "Controller\\GameController.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Controller\\GameController.cs",
               "RelativeToolTip": "Controller\\GameController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAiwEAAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAswEIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-24T10:48:50.606Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "GameStateTests.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator.Tests\\GameStateTests.cs",
               "RelativeDocumentMoniker": "..\\HamsterSimulator.Tests\\GameStateTests.cs",
@@ -84,25 +84,24 @@
               "RelativeToolTip": "..\\HamsterSimulator.Tests\\GameStateTests.cs",
               "ViewState": "AgIAAIoAAAAAAAAAAAA0wJkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-24T10:51:41.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-24T10:51:41.078Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "MainForm.cs",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\View\\MainForm.cs",
               "RelativeDocumentMoniker": "View\\MainForm.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\View\\MainForm.cs",
               "RelativeToolTip": "View\\MainForm.cs",
-              "ViewState": "AgIAABsBAAAAAAAAAAAiwFYBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAFABAAAAAAAAAAAswH0BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-19T15:45:38.83Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MainForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\View\\MainForm.cs",
               "RelativeDocumentMoniker": "View\\MainForm.cs",

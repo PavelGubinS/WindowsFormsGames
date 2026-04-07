@@ -15,15 +15,25 @@ namespace HamsterSimulator.Model
         public bool IsGameOver { get; private set; }
         public string GameOverMessage { get; private set; } = string.Empty;
 
+        // Здоровье и коллекторы
+        public int Health { get; private set; }
+        private double _currentCollectionChance;
+        private const double InitialCollectionChance = 0.0;      // 0%
+        private const double LoanChanceIncrease = 0.05;          // +5%
+        private const double MicroLoanChanceIncrease = 0.03;     // +3%
+        private const double PostTriggerChanceDecrease = 0.05;   // -5%
+
+        // Подкрутка
         private int _riggingUsesLeft;
         private bool _isNextSpinRigged;
 
         public int RiggingUsesLeft => _riggingUsesLeft;
         public bool CanUseRigging => !IsGameOver && _riggingUsesLeft > 0;
+        public double CurrentCollectionChance => _currentCollectionChance;
 
-        public GameState() : this(new Random())
-        {
-        }
+        public event Action OnCollectorsTriggered;
+
+        public GameState() : this(new Random()) { }
 
         public GameState(Random random)
         {
@@ -38,6 +48,8 @@ namespace HamsterSimulator.Model
             MicroLoanCount = 0;
             _riggingUsesLeft = 3;
             _isNextSpinRigged = false;
+            Health = 5;                      // изменено с 3 на 5
+            _currentCollectionChance = InitialCollectionChance;
             IsGameOver = false;
             GameOverMessage = string.Empty;
             for (int i = 0; i < CurrentNumbers.Length; i++)
@@ -75,7 +87,6 @@ namespace HamsterSimulator.Model
 
             if (_isNextSpinRigged)
             {
-                // Гарантированный выигрыш
                 Balance += 50;
                 _isNextSpinRigged = false;
                 _riggingUsesLeft--;
@@ -86,6 +97,7 @@ namespace HamsterSimulator.Model
             }
 
             CheckGameStatus();
+            CheckCollectors(); // проверка коллекторов после спина
         }
 
         public void TakeLoan()
@@ -96,6 +108,7 @@ namespace HamsterSimulator.Model
             {
                 LoanCount++;
                 Balance += 50;
+                IncreaseCollectionChance(LoanChanceIncrease);
                 CheckGameStatus();
             }
         }
@@ -108,16 +121,53 @@ namespace HamsterSimulator.Model
             {
                 MicroLoanCount++;
                 Balance += 30;
+                IncreaseCollectionChance(MicroLoanChanceIncrease);
                 CheckGameStatus();
             }
         }
 
-        // Активирует подкрутку на следующий спин (если есть использования)
         public void UseRigging()
         {
             if (!CanUseRigging) return;
             _isNextSpinRigged = true;
-            // Счётчик не уменьшается здесь, он уменьшится при реальном спине
+        }
+
+        private void IncreaseCollectionChance(double increment)
+        {
+            _currentCollectionChance += increment;
+            if (_currentCollectionChance > 1.0) _currentCollectionChance = 1.0;
+        }
+
+        private void CheckCollectors()
+        {
+            if (IsGameOver) return;
+            if (Health <= 0)
+            {
+                TriggerGameOverByCollectors();
+                return;
+            }
+
+            double roll = _random.NextDouble();
+            if (roll < _currentCollectionChance)
+            {
+                // Коллекторы пришли
+                Health--;
+                // Уменьшаем шанс на 5%, но не ниже 0
+                _currentCollectionChance = Math.Max(0, _currentCollectionChance - PostTriggerChanceDecrease);
+
+                OnCollectorsTriggered?.Invoke();
+
+                if (Health <= 0)
+                {
+                    TriggerGameOverByCollectors();
+                }
+            }
+        }
+
+        private void TriggerGameOverByCollectors()
+        {
+            IsGameOver = true;
+            GameOverMessage = "Тебя нашли коллекторы, прощай...";
         }
 
         private void ApplyCombinationEffects()
@@ -159,6 +209,7 @@ namespace HamsterSimulator.Model
 
         private void CheckGameStatus()
         {
+            if (IsGameOver) return;
             CheckForGameOver();
             CheckForDeadEnd();
         }

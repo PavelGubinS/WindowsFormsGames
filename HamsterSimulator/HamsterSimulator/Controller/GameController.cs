@@ -12,6 +12,7 @@ namespace HamsterSimulator.Controller
         {
             _view = view;
             _model = new GameState();
+            _model.OnCollectorsTriggered += _view.TriggerCollectorsEffect;
         }
 
         public void Spin()
@@ -37,7 +38,6 @@ namespace HamsterSimulator.Controller
             _view.UpdateUI();
         }
 
-        // Новый метод для подкрутки
         public void UseRigging()
         {
             if (_model.IsGameOver) return;
@@ -61,5 +61,7 @@ namespace HamsterSimulator.Controller
         public int TotalSpinCost => _model.CalculateTotalSpinCost();
         public int RiggingUsesLeft => _model.RiggingUsesLeft;
         public bool CanUseRigging => _model.CanUseRigging;
+        public int Health => _model.Health;
+        public double CollectionChance => _model.CurrentCollectionChance;
     }
 }
