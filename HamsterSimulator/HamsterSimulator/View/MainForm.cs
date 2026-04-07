@@ -67,6 +67,7 @@ namespace HamsterSimulator.View
             lblHealth.Text = $"Здоровье: {_controller.Health}";
             lblCollectionChance.Text = $"Шанс коллекторов: {_controller.CollectionChance:P0}";
             lblDopamine.Text = $"ЛудоДофамин: {_controller.LudoDopamine}/25";
+            lblWinStreak.Text = $"Серия: {_controller.WinStreak}";   // НОВОЕ
 
             if (!_isAnimating && _controller.CurrentNumbers != null)
                 lblNumbers.Text = string.Join(" ", _controller.CurrentNumbers);
@@ -207,6 +208,7 @@ namespace HamsterSimulator.View
             this.lblHealth = new System.Windows.Forms.Label();
             this.lblCollectionChance = new System.Windows.Forms.Label();
             this.lblDopamine = new System.Windows.Forms.Label();
+            this.lblWinStreak = new System.Windows.Forms.Label();   // НОВОЕ
             this.SuspendLayout();
             // 
             // btnAction
@@ -352,11 +354,22 @@ namespace HamsterSimulator.View
             this.lblDopamine.TabIndex = 13;
             this.lblDopamine.Text = "ЛудоДофамин: 0/25";
             // 
+            // lblWinStreak
+            // 
+            this.lblWinStreak.AutoSize = true;
+            this.lblWinStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.lblWinStreak.Location = new System.Drawing.Point(900, 254);
+            this.lblWinStreak.Name = "lblWinStreak";
+            this.lblWinStreak.Size = new System.Drawing.Size(90, 25);
+            this.lblWinStreak.TabIndex = 14;
+            this.lblWinStreak.Text = "Серия: 0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1468, 707);
+            this.Controls.Add(this.lblWinStreak);      // НОВОЕ
             this.Controls.Add(this.lblDopamine);
             this.Controls.Add(this.lblCollectionChance);
             this.Controls.Add(this.lblHealth);
@@ -375,7 +388,6 @@ namespace HamsterSimulator.View
             this.Text = "Симулятор Лудика";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         private System.Windows.Forms.Button btnAction;
@@ -392,5 +404,6 @@ namespace HamsterSimulator.View
         private System.Windows.Forms.Label lblHealth;
         private System.Windows.Forms.Label lblCollectionChance;
         private System.Windows.Forms.Label lblDopamine;
+        private System.Windows.Forms.Label lblWinStreak;   // НОВОЕ
     }
 }

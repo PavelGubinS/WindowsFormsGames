@@ -35,6 +35,7 @@ namespace HamsterSimulator.Model
         public int RiggingUsesLeft => _riggingUsesLeft;
         public bool CanUseRigging => !IsGameOver && _riggingUsesLeft > 0;
         public double CurrentCollectionChance => _currentCollectionChance;
+        public int WinStreak => _winStreak;   // НОВОЕ
 
         public event Action OnCollectorsTriggered;
 

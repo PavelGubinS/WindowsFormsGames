@@ -8,3 +8,6 @@ C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimula
 C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\bin\Debug\HamsterSimulator.pdb
 C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.exe
 C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.pdb
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\Interop.WMPLib.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\Interop.WMPRichPreviewLauncher.dll
+C:\Users\user\OneDrive\Desktop\Учёба\Ulearn\WindowsFormsGames\HamsterSimulator\HamsterSimulator\obj\Debug\HamsterSimulator.csproj.ResolveComReference.cache
