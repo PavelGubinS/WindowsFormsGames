@@ -66,6 +66,7 @@ namespace HamsterSimulator.View
             lblRiggingUses.Text = $"Подкрутка: {_controller.RiggingUsesLeft}/3";
             lblHealth.Text = $"Здоровье: {_controller.Health}";
             lblCollectionChance.Text = $"Шанс коллекторов: {_controller.CollectionChance:P0}";
+            lblDopamine.Text = $"ЛудоДофамин: {_controller.LudoDopamine}/25";
 
             if (!_isAnimating && _controller.CurrentNumbers != null)
                 lblNumbers.Text = string.Join(" ", _controller.CurrentNumbers);
@@ -205,44 +206,45 @@ namespace HamsterSimulator.View
             this.lblRiggingUses = new System.Windows.Forms.Label();
             this.lblHealth = new System.Windows.Forms.Label();
             this.lblCollectionChance = new System.Windows.Forms.Label();
+            this.lblDopamine = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnAction
             // 
-            this.btnAction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnAction.Location = new System.Drawing.Point(577, 478);
+            this.btnAction.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
+            this.btnAction.Location = new System.Drawing.Point(637, 511);
             this.btnAction.Name = "btnAction";
-            this.btnAction.Size = new System.Drawing.Size(272, 74);
+            this.btnAction.Size = new System.Drawing.Size(186, 93);
             this.btnAction.TabIndex = 0;
             this.btnAction.Text = "ДЕП";
             this.btnAction.UseVisualStyleBackColor = true;
             // 
             // btnLoan
             // 
-            this.btnLoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnLoan.Location = new System.Drawing.Point(464, 387);
+            this.btnLoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
+            this.btnLoan.Location = new System.Drawing.Point(467, 400);
             this.btnLoan.Name = "btnLoan";
-            this.btnLoan.Size = new System.Drawing.Size(171, 65);
+            this.btnLoan.Size = new System.Drawing.Size(208, 93);
             this.btnLoan.TabIndex = 1;
             this.btnLoan.Text = "Займ";
             this.btnLoan.UseVisualStyleBackColor = true;
             // 
             // btnMicroLoan
             // 
-            this.btnMicroLoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btnMicroLoan.Location = new System.Drawing.Point(774, 387);
+            this.btnMicroLoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
+            this.btnMicroLoan.Location = new System.Drawing.Point(786, 400);
             this.btnMicroLoan.Name = "btnMicroLoan";
-            this.btnMicroLoan.Size = new System.Drawing.Size(180, 65);
+            this.btnMicroLoan.Size = new System.Drawing.Size(216, 93);
             this.btnMicroLoan.TabIndex = 5;
             this.btnMicroLoan.Text = "Микрозайм";
             this.btnMicroLoan.UseVisualStyleBackColor = true;
             // 
             // btnRigging
             // 
-            this.btnRigging.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnRigging.Location = new System.Drawing.Point(1268, 12);
+            this.btnRigging.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.btnRigging.Location = new System.Drawing.Point(1299, 14);
             this.btnRigging.Name = "btnRigging";
-            this.btnRigging.Size = new System.Drawing.Size(188, 55);
+            this.btnRigging.Size = new System.Drawing.Size(157, 77);
             this.btnRigging.TabIndex = 9;
             this.btnRigging.Text = "Подкрутка";
             this.btnRigging.UseVisualStyleBackColor = true;
@@ -250,31 +252,31 @@ namespace HamsterSimulator.View
             // lblBalance
             // 
             this.lblBalance.AutoSize = true;
-            this.lblBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblBalance.Location = new System.Drawing.Point(587, 62);
+            this.lblBalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
+            this.lblBalance.Location = new System.Drawing.Point(649, 49);
             this.lblBalance.Name = "lblBalance";
-            this.lblBalance.Size = new System.Drawing.Size(130, 29);
+            this.lblBalance.Size = new System.Drawing.Size(145, 31);
             this.lblBalance.TabIndex = 2;
             this.lblBalance.Text = "Баланс: 0";
             // 
             // lblNumbers
             // 
             this.lblNumbers.AutoSize = true;
-            this.lblNumbers.Font = new System.Drawing.Font("Courier New", 26F, System.Drawing.FontStyle.Bold);
-            this.lblNumbers.Location = new System.Drawing.Point(542, 292);
+            this.lblNumbers.Font = new System.Drawing.Font("Courier New", 28F, System.Drawing.FontStyle.Bold);
+            this.lblNumbers.Location = new System.Drawing.Point(540, 309);
             this.lblNumbers.Name = "lblNumbers";
-            this.lblNumbers.Size = new System.Drawing.Size(360, 50);
+            this.lblNumbers.Size = new System.Drawing.Size(387, 53);
             this.lblNumbers.TabIndex = 3;
             this.lblNumbers.Text = "0 0 0 0 0 0 0";
             // 
             // lblGameOver
             // 
             this.lblGameOver.AutoSize = true;
-            this.lblGameOver.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
+            this.lblGameOver.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold);
             this.lblGameOver.ForeColor = System.Drawing.Color.Red;
-            this.lblGameOver.Location = new System.Drawing.Point(554, 577);
+            this.lblGameOver.Location = new System.Drawing.Point(533, 607);
             this.lblGameOver.Name = "lblGameOver";
-            this.lblGameOver.Size = new System.Drawing.Size(329, 31);
+            this.lblGameOver.Size = new System.Drawing.Size(371, 36);
             this.lblGameOver.TabIndex = 4;
             this.lblGameOver.Text = "Ты всё слил в нулину...";
             this.lblGameOver.Visible = false;
@@ -282,69 +284,80 @@ namespace HamsterSimulator.View
             // lblLoanCount
             // 
             this.lblLoanCount.AutoSize = true;
-            this.lblLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblLoanCount.Location = new System.Drawing.Point(507, 109);
+            this.lblLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.lblLoanCount.Location = new System.Drawing.Point(508, 101);
             this.lblLoanCount.Name = "lblLoanCount";
-            this.lblLoanCount.Size = new System.Drawing.Size(116, 25);
+            this.lblLoanCount.Size = new System.Drawing.Size(136, 29);
             this.lblLoanCount.TabIndex = 6;
             this.lblLoanCount.Text = "Займы: 0/3";
             // 
             // lblMicroLoanCount
             // 
             this.lblMicroLoanCount.AutoSize = true;
-            this.lblMicroLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblMicroLoanCount.Location = new System.Drawing.Point(664, 109);
+            this.lblMicroLoanCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.lblMicroLoanCount.Location = new System.Drawing.Point(781, 101);
             this.lblMicroLoanCount.Name = "lblMicroLoanCount";
-            this.lblMicroLoanCount.Size = new System.Drawing.Size(173, 25);
+            this.lblMicroLoanCount.Size = new System.Drawing.Size(209, 29);
             this.lblMicroLoanCount.TabIndex = 7;
             this.lblMicroLoanCount.Text = "Микрозаймы: 0/5";
             // 
             // lblPenalty
             // 
             this.lblPenalty.AutoSize = true;
-            this.lblPenalty.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblPenalty.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.lblPenalty.ForeColor = System.Drawing.Color.DarkRed;
-            this.lblPenalty.Location = new System.Drawing.Point(587, 153);
+            this.lblPenalty.Location = new System.Drawing.Point(623, 143);
             this.lblPenalty.Name = "lblPenalty";
-            this.lblPenalty.Size = new System.Drawing.Size(187, 25);
+            this.lblPenalty.Size = new System.Drawing.Size(222, 29);
             this.lblPenalty.TabIndex = 8;
             this.lblPenalty.Text = "Штраф за долги: 0";
             // 
             // lblRiggingUses
             // 
             this.lblRiggingUses.AutoSize = true;
-            this.lblRiggingUses.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblRiggingUses.Location = new System.Drawing.Point(1279, 91);
+            this.lblRiggingUses.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblRiggingUses.Location = new System.Drawing.Point(1294, 121);
             this.lblRiggingUses.Name = "lblRiggingUses";
-            this.lblRiggingUses.Size = new System.Drawing.Size(133, 20);
+            this.lblRiggingUses.Size = new System.Drawing.Size(150, 25);
             this.lblRiggingUses.TabIndex = 10;
             this.lblRiggingUses.Text = "Подкрутка: 3/3";
             // 
             // lblHealth
             // 
             this.lblHealth.AutoSize = true;
-            this.lblHealth.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblHealth.Location = new System.Drawing.Point(500, 202);
+            this.lblHealth.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.lblHealth.Location = new System.Drawing.Point(476, 192);
             this.lblHealth.Name = "lblHealth";
-            this.lblHealth.Size = new System.Drawing.Size(123, 25);
+            this.lblHealth.Size = new System.Drawing.Size(149, 29);
             this.lblHealth.TabIndex = 11;
-            this.lblHealth.Text = "Здоровье: 3";
+            this.lblHealth.Text = "Здоровье: 5";
             // 
             // lblCollectionChance
             // 
             this.lblCollectionChance.AutoSize = true;
-            this.lblCollectionChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblCollectionChance.Location = new System.Drawing.Point(650, 206);
+            this.lblCollectionChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblCollectionChance.Location = new System.Drawing.Point(823, 196);
             this.lblCollectionChance.Name = "lblCollectionChance";
-            this.lblCollectionChance.Size = new System.Drawing.Size(199, 20);
+            this.lblCollectionChance.Size = new System.Drawing.Size(225, 25);
             this.lblCollectionChance.TabIndex = 12;
             this.lblCollectionChance.Text = "Шанс коллекторов: 0%";
+            // 
+            // lblDopamine
+            // 
+            this.lblDopamine.AutoSize = true;
+            this.lblDopamine.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
+            this.lblDopamine.Location = new System.Drawing.Point(605, 254);
+            this.lblDopamine.Name = "lblDopamine";
+            this.lblDopamine.Size = new System.Drawing.Size(251, 29);
+            this.lblDopamine.TabIndex = 13;
+            this.lblDopamine.Text = "ЛудоДофамин: 0/25";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1468, 707);
+            this.Controls.Add(this.lblDopamine);
             this.Controls.Add(this.lblCollectionChance);
             this.Controls.Add(this.lblHealth);
             this.Controls.Add(this.lblRiggingUses);
@@ -378,5 +391,6 @@ namespace HamsterSimulator.View
         private System.Windows.Forms.Label lblRiggingUses;
         private System.Windows.Forms.Label lblHealth;
         private System.Windows.Forms.Label lblCollectionChance;
+        private System.Windows.Forms.Label lblDopamine;
     }
 }

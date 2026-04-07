@@ -15,13 +15,18 @@ namespace HamsterSimulator.Model
         public bool IsGameOver { get; private set; }
         public string GameOverMessage { get; private set; } = string.Empty;
 
+        // ЛудоДофамин
+        public int LudoDopamine { get; private set; }
+        private int _winStreak = 0;
+        private const int WinTarget = 25;
+
         // Здоровье и коллекторы
         public int Health { get; private set; }
         private double _currentCollectionChance;
-        private const double InitialCollectionChance = 0.0;      // 0%
-        private const double LoanChanceIncrease = 0.05;          // +5%
-        private const double MicroLoanChanceIncrease = 0.03;     // +3%
-        private const double PostTriggerChanceDecrease = 0.05;   // -5%
+        private const double InitialCollectionChance = 0.0;
+        private const double LoanChanceIncrease = 0.05;
+        private const double MicroLoanChanceIncrease = 0.03;
+        private const double PostTriggerChanceDecrease = 0.05;
 
         // Подкрутка
         private int _riggingUsesLeft;
@@ -48,8 +53,10 @@ namespace HamsterSimulator.Model
             MicroLoanCount = 0;
             _riggingUsesLeft = 3;
             _isNextSpinRigged = false;
-            Health = 5;                      // изменено с 3 на 5
+            Health = 5;
             _currentCollectionChance = InitialCollectionChance;
+            LudoDopamine = 0;
+            _winStreak = 0;
             IsGameOver = false;
             GameOverMessage = string.Empty;
             for (int i = 0; i < CurrentNumbers.Length; i++)
@@ -85,19 +92,42 @@ namespace HamsterSimulator.Model
                 CurrentNumbers[i] = _random.Next(0, 10);
             }
 
+            bool isWin = false;
+
             if (_isNextSpinRigged)
             {
                 Balance += 50;
                 _isNextSpinRigged = false;
                 _riggingUsesLeft--;
+                isWin = true;
             }
             else
             {
-                ApplyCombinationEffects();
+                isWin = ApplyCombinationEffects();
+            }
+
+            // Начисление ЛудоДофамина
+            if (isWin)
+            {
+                _winStreak++;
+                int dopamineGain = (_winStreak >= 2) ? 2 : 1;
+                LudoDopamine += dopamineGain;
+            }
+            else
+            {
+                _winStreak = 0;
+            }
+
+            // Проверка победы
+            if (LudoDopamine >= WinTarget && !IsGameOver)
+            {
+                IsGameOver = true;
+                GameOverMessage = "Невероятно, но ты не нищий!";
+                return;
             }
 
             CheckGameStatus();
-            CheckCollectors(); // проверка коллекторов после спина
+            CheckCollectors();
         }
 
         public void TakeLoan()
@@ -150,11 +180,8 @@ namespace HamsterSimulator.Model
             double roll = _random.NextDouble();
             if (roll < _currentCollectionChance)
             {
-                // Коллекторы пришли
                 Health--;
-                // Уменьшаем шанс на 5%, но не ниже 0
                 _currentCollectionChance = Math.Max(0, _currentCollectionChance - PostTriggerChanceDecrease);
-
                 OnCollectorsTriggered?.Invoke();
 
                 if (Health <= 0)
@@ -170,21 +197,31 @@ namespace HamsterSimulator.Model
             GameOverMessage = "Тебя нашли коллекторы, прощай...";
         }
 
-        private void ApplyCombinationEffects()
+        /// <returns>True, если был выигрыш (прибавка к балансу)</returns>
+        private bool ApplyCombinationEffects()
         {
             double luckIndex = CalculateLuckIndex();
+            bool isWin = false;
 
             if (luckIndex > 14.0)
             {
                 if (AllNumbersSame())
+                {
                     Balance += 100;
+                    isWin = true;
+                }
                 else
+                {
                     Balance += 50;
+                    isWin = true;
+                }
             }
             else
             {
                 Balance = Math.Max(0, Balance - 10);
+                isWin = false;
             }
+            return isWin;
         }
 
         private bool AllNumbersSame()

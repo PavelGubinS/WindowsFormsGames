@@ -63,5 +63,6 @@ namespace HamsterSimulator.Controller
         public bool CanUseRigging => _model.CanUseRigging;
         public int Health => _model.Health;
         public double CollectionChance => _model.CurrentCollectionChance;
+        public int LudoDopamine => _model.LudoDopamine;
     }
 }
