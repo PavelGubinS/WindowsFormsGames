@@ -17,6 +17,8 @@ namespace HamsterSimulator.View
         private Timer _flashTimer;
         private Color _originalBackColor;
 
+        private int _previousBalance;
+
         public MainForm()
         {
             InitializeComponent();
@@ -26,6 +28,7 @@ namespace HamsterSimulator.View
         private void InitializeGame()
         {
             _controller = new GameController(this);
+            _previousBalance = _controller.Balance;
 
             _gameTimer = new Timer();
             _gameTimer.Interval = 100;
@@ -59,15 +62,40 @@ namespace HamsterSimulator.View
 
         public void UpdateUI()
         {
+            int newBalance = _controller.Balance;
+
+            // Мигание баланса
+            if (newBalance > _previousBalance)
+            {
+                lblBalance.ForeColor = Color.Green;
+                var timer = new Timer { Interval = 500 };
+                timer.Tick += (s, e) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
+                timer.Start();
+            }
+            else if (newBalance < _previousBalance)
+            {
+                lblBalance.ForeColor = Color.Red;
+                var timer = new Timer { Interval = 500 };
+                timer.Tick += (s, e) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
+                timer.Start();
+            }
+            _previousBalance = newBalance;
+
             lblBalance.Text = $"Баланс: {_controller.Balance}";
             lblLoanCount.Text = $"Займы: {_controller.LoanCount}/3";
             lblMicroLoanCount.Text = $"Микрозаймы: {_controller.MicroLoanCount}/5";
             lblPenalty.Text = $"Штраф за долги: {_controller.SpinPenalty}";
             lblRiggingUses.Text = $"Подкрутка: {_controller.RiggingUsesLeft}/3";
-            lblHealth.Text = $"Здоровье: {_controller.Health}";
+
+            // Сердечки для здоровья (исправлено: используем обычные символы)
+            int health = _controller.Health;
+            string hearts = new string('♥', health) + new string('♡', 5 - health);
+            lblHealth.Text = $"Здоровье: {hearts}";
+
             lblCollectionChance.Text = $"Шанс коллекторов: {_controller.CollectionChance:P0}";
             lblDopamine.Text = $"ЛудоДофамин: {_controller.LudoDopamine}/25";
-            lblWinStreak.Text = $"Серия: {_controller.WinStreak}";   // НОВОЕ
+            lblWinStreak.Text = $"Серия: {_controller.WinStreak}";
+            lblMaxStreak.Text = $"Рекорд: {_controller.MaxWinStreak}";
 
             if (!_isAnimating && _controller.CurrentNumbers != null)
                 lblNumbers.Text = string.Join(" ", _controller.CurrentNumbers);
@@ -208,7 +236,8 @@ namespace HamsterSimulator.View
             this.lblHealth = new System.Windows.Forms.Label();
             this.lblCollectionChance = new System.Windows.Forms.Label();
             this.lblDopamine = new System.Windows.Forms.Label();
-            this.lblWinStreak = new System.Windows.Forms.Label();   // НОВОЕ
+            this.lblWinStreak = new System.Windows.Forms.Label();
+            this.lblMaxStreak = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnAction
@@ -348,7 +377,7 @@ namespace HamsterSimulator.View
             // 
             this.lblDopamine.AutoSize = true;
             this.lblDopamine.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblDopamine.Location = new System.Drawing.Point(605, 254);
+            this.lblDopamine.Location = new System.Drawing.Point(408, 249);
             this.lblDopamine.Name = "lblDopamine";
             this.lblDopamine.Size = new System.Drawing.Size(251, 29);
             this.lblDopamine.TabIndex = 13;
@@ -358,18 +387,29 @@ namespace HamsterSimulator.View
             // 
             this.lblWinStreak.AutoSize = true;
             this.lblWinStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.lblWinStreak.Location = new System.Drawing.Point(900, 254);
+            this.lblWinStreak.Location = new System.Drawing.Point(921, 256);
             this.lblWinStreak.Name = "lblWinStreak";
-            this.lblWinStreak.Size = new System.Drawing.Size(90, 25);
+            this.lblWinStreak.Size = new System.Drawing.Size(99, 25);
             this.lblWinStreak.TabIndex = 14;
             this.lblWinStreak.Text = "Серия: 0";
+            // 
+            // lblMaxStreak
+            // 
+            this.lblMaxStreak.AutoSize = true;
+            this.lblMaxStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblMaxStreak.Location = new System.Drawing.Point(1064, 256);
+            this.lblMaxStreak.Name = "lblMaxStreak";
+            this.lblMaxStreak.Size = new System.Drawing.Size(90, 20);
+            this.lblMaxStreak.TabIndex = 15;
+            this.lblMaxStreak.Text = "Рекорд: 0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1468, 707);
-            this.Controls.Add(this.lblWinStreak);      // НОВОЕ
+            this.Controls.Add(this.lblMaxStreak);
+            this.Controls.Add(this.lblWinStreak);
             this.Controls.Add(this.lblDopamine);
             this.Controls.Add(this.lblCollectionChance);
             this.Controls.Add(this.lblHealth);
@@ -388,6 +428,7 @@ namespace HamsterSimulator.View
             this.Text = "Симулятор Лудика";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.Button btnAction;
@@ -404,6 +445,7 @@ namespace HamsterSimulator.View
         private System.Windows.Forms.Label lblHealth;
         private System.Windows.Forms.Label lblCollectionChance;
         private System.Windows.Forms.Label lblDopamine;
-        private System.Windows.Forms.Label lblWinStreak;   // НОВОЕ
+        private System.Windows.Forms.Label lblWinStreak;
+        private System.Windows.Forms.Label lblMaxStreak;
     }
 }

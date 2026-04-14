@@ -18,6 +18,7 @@ namespace HamsterSimulator.Model
         // ЛудоДофамин
         public int LudoDopamine { get; private set; }
         private int _winStreak = 0;
+        private int _maxWinStreak = 0;
         private const int WinTarget = 25;
 
         // Здоровье и коллекторы
@@ -35,7 +36,8 @@ namespace HamsterSimulator.Model
         public int RiggingUsesLeft => _riggingUsesLeft;
         public bool CanUseRigging => !IsGameOver && _riggingUsesLeft > 0;
         public double CurrentCollectionChance => _currentCollectionChance;
-        public int WinStreak => _winStreak;   // НОВОЕ
+        public int WinStreak => _winStreak;
+        public int MaxWinStreak => _maxWinStreak;
 
         public event Action OnCollectorsTriggered;
 
@@ -58,6 +60,7 @@ namespace HamsterSimulator.Model
             _currentCollectionChance = InitialCollectionChance;
             LudoDopamine = 0;
             _winStreak = 0;
+            _maxWinStreak = 0;
             IsGameOver = false;
             GameOverMessage = string.Empty;
             for (int i = 0; i < CurrentNumbers.Length; i++)
@@ -107,10 +110,12 @@ namespace HamsterSimulator.Model
                 isWin = ApplyCombinationEffects();
             }
 
-            // Начисление ЛудоДофамина
+            // Начисление ЛудоДофамина и обновление серии
             if (isWin)
             {
                 _winStreak++;
+                if (_winStreak > _maxWinStreak)
+                    _maxWinStreak = _winStreak;
                 int dopamineGain = (_winStreak >= 2) ? 2 : 1;
                 LudoDopamine += dopamineGain;
             }
