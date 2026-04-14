@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|c:\\users\\user\\onedrive\\desktop\\\u0443\u0447\u0451\u0431\u0430\\ulearn\\windowsformsgames\\hamstersimulator\\hamstersimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5EBE24E2-10B4-42C4-800D-55086C67914E}|HamsterSimulator.csproj|solutionrelative:view\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -33,8 +33,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 4,
@@ -45,7 +49,8 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T15:55:35.797Z"
+              "WhenOpened": "2026-03-19T15:55:35.797Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -55,7 +60,7 @@
               "RelativeDocumentMoniker": "Model\\GameState.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Model\\GameState.cs",
               "RelativeToolTip": "Model\\GameState.cs",
-              "ViewState": "AgIAAOQAAAAAAAAAAAAiwBsBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAA2wBsBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-19T15:59:24.907Z",
               "EditorCaption": ""
@@ -68,7 +73,7 @@
               "RelativeDocumentMoniker": "Controller\\GameController.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\Controller\\GameController.cs",
               "RelativeToolTip": "Controller\\GameController.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAuwCAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-24T10:48:50.606Z",
               "EditorCaption": ""
@@ -93,7 +98,7 @@
               "RelativeDocumentMoniker": "View\\MainForm.cs",
               "ToolTip": "C:\\Users\\user\\OneDrive\\Desktop\\\u0423\u0447\u0451\u0431\u0430\\Ulearn\\WindowsFormsGames\\HamsterSimulator\\HamsterSimulator\\View\\MainForm.cs",
               "RelativeToolTip": "View\\MainForm.cs",
-              "ViewState": "AgIAAJYBAAAAAAAAAAAswMIBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAOcBAAAAAAAAAAAqwAACAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-19T15:45:38.83Z",
               "EditorCaption": ""

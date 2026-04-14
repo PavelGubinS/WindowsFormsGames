@@ -19,6 +19,25 @@ namespace HamsterSimulator.View
 
         private int _previousBalance;
 
+        // Цитаты
+        private Label _lblQuote;
+        private string[] _quotes = {
+            "«Прикормил казино, сейчас попрёт!»",
+            "«КАК Я МОГУ БЫТЬ НИЩИМ, КАК???»",
+            "«Три самых важных слова в мире заработка — деп, додеп и ласт деп!» - Уоррен Баффет.",
+            "«На сдачу можно хот-догов купить в Трассе...»",
+            "«Бл[ЦЕНЗУРА]»",
+            "«Я не слил деньги, я просто инвестировал в казино»",
+            "«Пока ещё не Футболист, жить можно»",
+            "«Раньше играл в Монополию, а теперь в казик...»",
+            "«Пора торговать концентратом апельсинового сока!»",
+            "«Пора прокатиться на самокате до нового МФО!»"
+        };
+        private Random _rand = new Random();
+
+        // Заготовка для будущей картинки (пока скрыта)
+        private PictureBox _picMeme;
+
         public MainForm()
         {
             InitializeComponent();
@@ -44,6 +63,31 @@ namespace HamsterSimulator.View
             _flashTimer.Tick += FlashTimer_Tick;
             _originalBackColor = this.BackColor;
 
+            // Создаём метку для цитаты (сдвинута левее и выше, шрифт крупнее)
+            _lblQuote = new Label
+            {
+                AutoSize = false,
+                Width = 450,
+                Height = 120,
+                Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold),
+                Location = new Point(20, 150),
+                ForeColor = Color.DarkBlue,
+                BackColor = Color.Transparent,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            this.Controls.Add(_lblQuote);
+            ShowRandomQuote(); // начальная цитата
+
+            // Заготовка для картинки (пока скрыта)
+            _picMeme = new PictureBox
+            {
+                Location = new Point(20, 280),
+                Size = new Size(300, 200),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Visible = false
+            };
+            this.Controls.Add(_picMeme);
+
             btnAction.Click += BtnAction_Click;
             btnLoan.Click += BtnLoan_Click;
             btnMicroLoan.Click += BtnMicroLoan_Click;
@@ -52,6 +96,12 @@ namespace HamsterSimulator.View
             this.KeyPreview = true;
 
             UpdateUI();
+        }
+
+        private void ShowRandomQuote()
+        {
+            int index = _rand.Next(_quotes.Length);
+            _lblQuote.Text = _quotes[index];
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -69,14 +119,14 @@ namespace HamsterSimulator.View
             {
                 lblBalance.ForeColor = Color.Green;
                 var timer = new Timer { Interval = 500 };
-                timer.Tick += (s, e) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
+                timer.Tick += (s, ev) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
                 timer.Start();
             }
             else if (newBalance < _previousBalance)
             {
                 lblBalance.ForeColor = Color.Red;
                 var timer = new Timer { Interval = 500 };
-                timer.Tick += (s, e) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
+                timer.Tick += (s, ev) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
                 timer.Start();
             }
             _previousBalance = newBalance;
@@ -87,14 +137,24 @@ namespace HamsterSimulator.View
             lblPenalty.Text = $"Штраф за долги: {_controller.SpinPenalty}";
             lblRiggingUses.Text = $"Подкрутка: {_controller.RiggingUsesLeft}/3";
 
-            // Сердечки для здоровья (исправлено: используем обычные символы)
             int health = _controller.Health;
             string hearts = new string('♥', health) + new string('♡', 5 - health);
             lblHealth.Text = $"Здоровье: {hearts}";
 
             lblCollectionChance.Text = $"Шанс коллекторов: {_controller.CollectionChance:P0}";
             lblDopamine.Text = $"ЛудоДофамин: {_controller.LudoDopamine}/25";
-            lblWinStreak.Text = $"Серия: {_controller.WinStreak}";
+
+            int streak = _controller.WinStreak;
+            if (streak >= 3)
+            {
+                lblWinStreak.Text = $"Серия: {streak} 🔥";
+                lblWinStreak.ForeColor = Color.Gold;
+            }
+            else
+            {
+                lblWinStreak.Text = $"Серия: {streak}";
+                lblWinStreak.ForeColor = SystemColors.ControlText;
+            }
             lblMaxStreak.Text = $"Рекорд: {_controller.MaxWinStreak}";
 
             if (!_isAnimating && _controller.CurrentNumbers != null)
@@ -155,6 +215,8 @@ namespace HamsterSimulator.View
                 _isAnimating = false;
                 _controller.Spin();
                 UpdateUI();
+                // После завершения спина показываем новую цитату
+                ShowRandomQuote();
             }
         }
 
@@ -216,6 +278,7 @@ namespace HamsterSimulator.View
                     _controller.ResetGame();
                     _buttonClickCount = 0;
                     UpdateUI();
+                    ShowRandomQuote();
                 }
             }
         }
@@ -357,7 +420,7 @@ namespace HamsterSimulator.View
             // 
             this.lblHealth.AutoSize = true;
             this.lblHealth.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.lblHealth.Location = new System.Drawing.Point(476, 192);
+            this.lblHealth.Location = new System.Drawing.Point(12, 24);
             this.lblHealth.Name = "lblHealth";
             this.lblHealth.Size = new System.Drawing.Size(149, 29);
             this.lblHealth.TabIndex = 11;
@@ -367,7 +430,7 @@ namespace HamsterSimulator.View
             // 
             this.lblCollectionChance.AutoSize = true;
             this.lblCollectionChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblCollectionChance.Location = new System.Drawing.Point(823, 196);
+            this.lblCollectionChance.Location = new System.Drawing.Point(12, 80);
             this.lblCollectionChance.Name = "lblCollectionChance";
             this.lblCollectionChance.Size = new System.Drawing.Size(225, 25);
             this.lblCollectionChance.TabIndex = 12;
@@ -377,7 +440,7 @@ namespace HamsterSimulator.View
             // 
             this.lblDopamine.AutoSize = true;
             this.lblDopamine.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblDopamine.Location = new System.Drawing.Point(408, 249);
+            this.lblDopamine.Location = new System.Drawing.Point(623, 267);
             this.lblDopamine.Name = "lblDopamine";
             this.lblDopamine.Size = new System.Drawing.Size(251, 29);
             this.lblDopamine.TabIndex = 13;
@@ -387,7 +450,7 @@ namespace HamsterSimulator.View
             // 
             this.lblWinStreak.AutoSize = true;
             this.lblWinStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.lblWinStreak.Location = new System.Drawing.Point(921, 256);
+            this.lblWinStreak.Location = new System.Drawing.Point(914, 191);
             this.lblWinStreak.Name = "lblWinStreak";
             this.lblWinStreak.Size = new System.Drawing.Size(99, 25);
             this.lblWinStreak.TabIndex = 14;
@@ -397,7 +460,7 @@ namespace HamsterSimulator.View
             // 
             this.lblMaxStreak.AutoSize = true;
             this.lblMaxStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblMaxStreak.Location = new System.Drawing.Point(1064, 256);
+            this.lblMaxStreak.Location = new System.Drawing.Point(1080, 191);
             this.lblMaxStreak.Name = "lblMaxStreak";
             this.lblMaxStreak.Size = new System.Drawing.Size(90, 20);
             this.lblMaxStreak.TabIndex = 15;
