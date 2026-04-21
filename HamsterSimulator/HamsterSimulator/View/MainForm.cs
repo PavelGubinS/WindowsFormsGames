@@ -21,6 +21,7 @@ namespace HamsterSimulator.View
 
         // Цитаты
         private Label _lblQuote;
+        private Random _rand = new Random();
         private string[] _quotes = {
             "«Прикормил казино, сейчас попрёт!»",
             "«КАК Я МОГУ БЫТЬ НИЩИМ, КАК???»",
@@ -33,10 +34,6 @@ namespace HamsterSimulator.View
             "«Пора торговать концентратом апельсинового сока!»",
             "«Пора прокатиться на самокате до нового МФО!»"
         };
-        private Random _rand = new Random();
-
-        // Заготовка для будущей картинки (пока скрыта)
-        private PictureBox _picMeme;
 
         public MainForm()
         {
@@ -63,7 +60,7 @@ namespace HamsterSimulator.View
             _flashTimer.Tick += FlashTimer_Tick;
             _originalBackColor = this.BackColor;
 
-            // Создаём метку для цитаты (сдвинута левее и выше, шрифт крупнее)
+            // Метка для цитаты
             _lblQuote = new Label
             {
                 AutoSize = false,
@@ -76,17 +73,7 @@ namespace HamsterSimulator.View
                 TextAlign = ContentAlignment.MiddleCenter
             };
             this.Controls.Add(_lblQuote);
-            ShowRandomQuote(); // начальная цитата
-
-            // Заготовка для картинки (пока скрыта)
-            _picMeme = new PictureBox
-            {
-                Location = new Point(20, 280),
-                Size = new Size(300, 200),
-                SizeMode = PictureBoxSizeMode.Zoom,
-                Visible = false
-            };
-            this.Controls.Add(_picMeme);
+            ShowRandomQuote();
 
             btnAction.Click += BtnAction_Click;
             btnLoan.Click += BtnLoan_Click;
@@ -104,6 +91,28 @@ namespace HamsterSimulator.View
             _lblQuote.Text = _quotes[index];
         }
 
+        // Дрожание формы
+        private void VibrateForm()
+        {
+            var original = this.Location;
+            for (int i = 0; i < 8; i++)
+            {
+                this.Location = new Point(original.X + (i % 2 == 0 ? 6 : -6), original.Y + (i % 3 == 0 ? 4 : -4));
+                System.Threading.Thread.Sleep(15);
+            }
+            this.Location = original;
+        }
+
+        // Красная вспышка (мигание фона)
+        private void RedFlash()
+        {
+            var originalBack = this.BackColor;
+            this.BackColor = Color.DarkRed;
+            Timer timer = new Timer { Interval = 200 };
+            timer.Tick += (s, e) => { this.BackColor = originalBack; timer.Stop(); timer.Dispose(); };
+            timer.Start();
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (!_isAnimating)
@@ -114,17 +123,20 @@ namespace HamsterSimulator.View
         {
             int newBalance = _controller.Balance;
 
-            // Мигание баланса
-            if (newBalance > _previousBalance)
+            // При проигрыше
+            if (newBalance < _previousBalance)
             {
-                lblBalance.ForeColor = Color.Green;
+                VibrateForm();
+                RedFlash();
+
+                lblBalance.ForeColor = Color.Red;
                 var timer = new Timer { Interval = 500 };
                 timer.Tick += (s, ev) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
                 timer.Start();
             }
-            else if (newBalance < _previousBalance)
+            else if (newBalance > _previousBalance)
             {
-                lblBalance.ForeColor = Color.Red;
+                lblBalance.ForeColor = Color.Green;
                 var timer = new Timer { Interval = 500 };
                 timer.Tick += (s, ev) => { lblBalance.ForeColor = SystemColors.ControlText; timer.Stop(); };
                 timer.Start();
@@ -215,7 +227,6 @@ namespace HamsterSimulator.View
                 _isAnimating = false;
                 _controller.Spin();
                 UpdateUI();
-                // После завершения спина показываем новую цитату
                 ShowRandomQuote();
             }
         }
@@ -420,7 +431,7 @@ namespace HamsterSimulator.View
             // 
             this.lblHealth.AutoSize = true;
             this.lblHealth.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.lblHealth.Location = new System.Drawing.Point(12, 24);
+            this.lblHealth.Location = new System.Drawing.Point(23, 25);
             this.lblHealth.Name = "lblHealth";
             this.lblHealth.Size = new System.Drawing.Size(149, 29);
             this.lblHealth.TabIndex = 11;
@@ -430,7 +441,7 @@ namespace HamsterSimulator.View
             // 
             this.lblCollectionChance.AutoSize = true;
             this.lblCollectionChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblCollectionChance.Location = new System.Drawing.Point(12, 80);
+            this.lblCollectionChance.Location = new System.Drawing.Point(23, 78);
             this.lblCollectionChance.Name = "lblCollectionChance";
             this.lblCollectionChance.Size = new System.Drawing.Size(225, 25);
             this.lblCollectionChance.TabIndex = 12;
@@ -440,7 +451,7 @@ namespace HamsterSimulator.View
             // 
             this.lblDopamine.AutoSize = true;
             this.lblDopamine.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblDopamine.Location = new System.Drawing.Point(623, 267);
+            this.lblDopamine.Location = new System.Drawing.Point(605, 254);
             this.lblDopamine.Name = "lblDopamine";
             this.lblDopamine.Size = new System.Drawing.Size(251, 29);
             this.lblDopamine.TabIndex = 13;
@@ -450,7 +461,7 @@ namespace HamsterSimulator.View
             // 
             this.lblWinStreak.AutoSize = true;
             this.lblWinStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.lblWinStreak.Location = new System.Drawing.Point(914, 191);
+            this.lblWinStreak.Location = new System.Drawing.Point(913, 202);
             this.lblWinStreak.Name = "lblWinStreak";
             this.lblWinStreak.Size = new System.Drawing.Size(99, 25);
             this.lblWinStreak.TabIndex = 14;
@@ -460,7 +471,7 @@ namespace HamsterSimulator.View
             // 
             this.lblMaxStreak.AutoSize = true;
             this.lblMaxStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblMaxStreak.Location = new System.Drawing.Point(1080, 191);
+            this.lblMaxStreak.Location = new System.Drawing.Point(1064, 202);
             this.lblMaxStreak.Name = "lblMaxStreak";
             this.lblMaxStreak.Size = new System.Drawing.Size(90, 20);
             this.lblMaxStreak.TabIndex = 15;
