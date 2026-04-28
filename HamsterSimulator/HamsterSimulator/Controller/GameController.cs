@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HamsterSimulator.Model;
 using HamsterSimulator.View;
 
@@ -51,6 +52,41 @@ namespace HamsterSimulator.Controller
             _view.UpdateUI();
         }
 
+        public void InitializeHeroes(List<Hero> heroes)
+        {
+            _model.InitializeHeroes(heroes);
+            _view.UpdateUI();
+        }
+
+        public void ActivateHeroAbility()
+        {
+            _model.ActivateCurrentHeroAbility();
+            _view.UpdateUI();
+        }
+
+        public void ApplyKalivanResult(int guess, int computerNumber)
+        {
+            _model.ApplyKalivanResult(guess, computerNumber);
+            _view.UpdateUI();
+        }
+
+        // События для передачи в представление
+        public event System.Action<int> OnKalivanGuessRequest
+        {
+            add => _model.OnKalivanGuessRequest += value;
+            remove => _model.OnKalivanGuessRequest -= value;
+        }
+        public event System.Action<int, int> OnKalivanResult
+        {
+            add => _model.OnKalivanResult += value;
+            remove => _model.OnKalivanResult -= value;
+        }
+        public event System.Action<Hero> OnHeroSwitched
+        {
+            add => _model.OnHeroSwitched += value;
+            remove => _model.OnHeroSwitched -= value;
+        }
+
         public int Balance => _model.Balance;
         public int[] CurrentNumbers => _model.CurrentNumbers;
         public bool IsGameOver => _model.IsGameOver;
@@ -66,5 +102,6 @@ namespace HamsterSimulator.Controller
         public int LudoDopamine => _model.LudoDopamine;
         public int WinStreak => _model.WinStreak;
         public int MaxWinStreak => _model.MaxWinStreak;
+        public Hero CurrentHero => _model.CurrentHero;
     }
 }

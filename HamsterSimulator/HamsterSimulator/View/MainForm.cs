@@ -1,7 +1,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using HamsterSimulator.Controller;
+using HamsterSimulator.Model;
 
 namespace HamsterSimulator.View
 {
@@ -19,7 +21,9 @@ namespace HamsterSimulator.View
 
         private int _previousBalance;
 
-        // Цитаты
+        // Элементы для героев
+        private Label _lblHeroInfo;
+        private Button _btnAbility;
         private Label _lblQuote;
         private Random _rand = new Random();
         private string[] _quotes = {
@@ -35,6 +39,10 @@ namespace HamsterSimulator.View
             "«Пора прокатиться на самокате до нового МФО!»"
         };
 
+        // Картинка-уведомление о смене героя
+        private PictureBox _heroSwitchPicture;
+        private Timer _heroSwitchTimer;
+
         public MainForm()
         {
             InitializeComponent();
@@ -45,6 +53,24 @@ namespace HamsterSimulator.View
         {
             _controller = new GameController(this);
             _previousBalance = _controller.Balance;
+
+            // Создаём героев
+            var heroes = new List<Hero>
+            {
+                Hero.CreateDefault(),
+                Hero.CreateKalivan(),
+                Hero.CreateInfluencer(),
+                Hero.CreateTank()
+            };
+            _controller.InitializeHeroes(heroes);
+
+            // Подписка на события героев
+            _controller.OnKalivanGuessRequest += OnKalivanGuessRequest;
+            _controller.OnHeroSwitched += OnHeroChanged;
+            _controller.OnKalivanResult += (player, comp) =>
+            {
+                MessageBox.Show($"Компьютер загадал {comp}. Вы назвали {player}. Результат применён.", "Способность Калывана");
+            };
 
             _gameTimer = new Timer();
             _gameTimer.Interval = 100;
@@ -66,8 +92,8 @@ namespace HamsterSimulator.View
                 AutoSize = false,
                 Width = 450,
                 Height = 120,
-                Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold),
-                Location = new Point(20, 150),
+                Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold),
+                Location = new Point(20, 180),
                 ForeColor = Color.DarkBlue,
                 BackColor = Color.Transparent,
                 TextAlign = ContentAlignment.MiddleCenter
@@ -75,42 +101,146 @@ namespace HamsterSimulator.View
             this.Controls.Add(_lblQuote);
             ShowRandomQuote();
 
+            // Информация о герое
+            _lblHeroInfo = new Label
+            {
+                AutoSize = false,
+                Width = 300,
+                Height = 60,
+                Font = new Font("Microsoft Sans Serif", 10F),
+                Location = new Point(20, 20),
+                ForeColor = Color.Black,
+                BackColor = Color.LightGray
+            };
+            this.Controls.Add(_lblHeroInfo);
+
+            // Кнопка активной способности
+            _btnAbility = new Button
+            {
+                Text = "Способность",
+                Location = new Point(20, 90),
+                Size = new Size(120, 30),
+                BackColor = Color.Gold
+            };
+            _btnAbility.Click += BtnAbility_Click;
+            this.Controls.Add(_btnAbility);
+
+            // Картинка уведомления о смене героя (правый нижний угол)
+            _heroSwitchPicture = new PictureBox
+            {
+                Size = new Size(128, 128),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Visible = false,
+                BackColor = Color.Transparent
+            };
+            // Загружаем картинку из файла (положите switch_hero.png в папку с exe или в Resources)
+            string imagePath = System.IO.Path.Combine(Application.StartupPath, "switch_hero.png");
+            if (System.IO.File.Exists(imagePath))
+            {
+                _heroSwitchPicture.Image = Image.FromFile(imagePath);
+            }
+            else
+            {
+                // Если файла нет, создадим простую заглушку (цветной квадрат с текстом)
+                Bitmap bmp = new Bitmap(128, 128);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.Gray);
+                    g.DrawString("Hero\nSwitch", SystemFonts.DefaultFont, Brushes.White, new RectangleF(0, 0, 128, 128));
+                }
+                _heroSwitchPicture.Image = bmp;
+            }
+            // Размещаем в правом нижнем углу (отступы 20 пикселей)
+            _heroSwitchPicture.Location = new Point(this.ClientSize.Width - _heroSwitchPicture.Width - 20,
+                                                   this.ClientSize.Height - _heroSwitchPicture.Height - 20);
+            this.Controls.Add(_heroSwitchPicture);
+            _heroSwitchPicture.BringToFront();
+
+            // Таймер для скрытия картинки
+            _heroSwitchTimer = new Timer { Interval = 4000 };
+            _heroSwitchTimer.Tick += (s, e) => {
+                _heroSwitchPicture.Visible = false;
+                _heroSwitchTimer.Stop();
+            };
+
+            // Отображаем начального героя
+            UpdateHeroInfo(_controller.CurrentHero);
+
             btnAction.Click += BtnAction_Click;
             btnLoan.Click += BtnLoan_Click;
             btnMicroLoan.Click += BtnMicroLoan_Click;
             btnRigging.Click += BtnRigging_Click;
             this.KeyDown += MainForm_KeyDown;
             this.KeyPreview = true;
+            this.Resize += (s, e) => RepositionHeroPicture(); // при изменении размера окна
 
             UpdateUI();
+        }
+
+        private void RepositionHeroPicture()
+        {
+            if (_heroSwitchPicture != null)
+            {
+                _heroSwitchPicture.Location = new Point(this.ClientSize.Width - _heroSwitchPicture.Width - 20,
+                                                       this.ClientSize.Height - _heroSwitchPicture.Height - 20);
+            }
+        }
+
+        private void OnHeroChanged(Hero hero)
+        {
+            UpdateHeroInfo(hero);
+            // Показать картинку на 4 секунды
+            _heroSwitchPicture.Visible = true;
+            _heroSwitchTimer.Stop();
+            _heroSwitchTimer.Start();
+            UpdateUI();
+        }
+
+        private void UpdateHeroInfo(Hero hero)
+        {
+            if (hero == null) return;
+            _lblHeroInfo.Text = $"{hero.Name}\n{hero.Description}";
+            _btnAbility.Enabled = hero.IsActiveAbility && !_controller.IsGameOver;
+        }
+
+        private void BtnAbility_Click(object sender, EventArgs e)
+        {
+            if (_controller.IsGameOver) return;
+            _controller.ActivateHeroAbility();
+        }
+
+        private void OnKalivanGuessRequest(int computerNumber)
+        {
+            Form prompt = new Form()
+            {
+                Width = 300,
+                Height = 150,
+                Text = "Способность Калывана",
+                StartPosition = FormStartPosition.CenterParent
+            };
+            Label textLabel = new Label() { Left = 10, Top = 20, Text = "Введите число от 1 до 10:" };
+            TextBox textBox = new TextBox() { Left = 10, Top = 50, Width = 200 };
+            Button confirm = new Button() { Text = "ОК", Left = 10, Top = 80, Width = 80 };
+            confirm.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirm);
+            prompt.ShowDialog();
+
+            if (int.TryParse(textBox.Text, out int guess) && guess >= 1 && guess <= 10)
+            {
+                _controller.ApplyKalivanResult(guess, computerNumber);
+            }
+            else
+            {
+                MessageBox.Show("Неверный ввод. Способность не применена.", "Ошибка");
+            }
         }
 
         private void ShowRandomQuote()
         {
             int index = _rand.Next(_quotes.Length);
             _lblQuote.Text = _quotes[index];
-        }
-
-        // Дрожание формы
-        private void VibrateForm()
-        {
-            var original = this.Location;
-            for (int i = 0; i < 8; i++)
-            {
-                this.Location = new Point(original.X + (i % 2 == 0 ? 6 : -6), original.Y + (i % 3 == 0 ? 4 : -4));
-                System.Threading.Thread.Sleep(15);
-            }
-            this.Location = original;
-        }
-
-        // Красная вспышка (мигание фона)
-        private void RedFlash()
-        {
-            var originalBack = this.BackColor;
-            this.BackColor = Color.DarkRed;
-            Timer timer = new Timer { Interval = 200 };
-            timer.Tick += (s, e) => { this.BackColor = originalBack; timer.Stop(); timer.Dispose(); };
-            timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -123,7 +253,6 @@ namespace HamsterSimulator.View
         {
             int newBalance = _controller.Balance;
 
-            // При проигрыше
             if (newBalance < _previousBalance)
             {
                 VibrateForm();
@@ -144,13 +273,13 @@ namespace HamsterSimulator.View
             _previousBalance = newBalance;
 
             lblBalance.Text = $"Баланс: {_controller.Balance}";
-            lblLoanCount.Text = $"Займы: {_controller.LoanCount}/3";
-            lblMicroLoanCount.Text = $"Микрозаймы: {_controller.MicroLoanCount}/5";
+            lblLoanCount.Text = $"Займы: {_controller.LoanCount}/{3 + (_controller.CurrentHero?.ExtraLoans ?? 0)}";
+            lblMicroLoanCount.Text = $"Микрозаймы: {_controller.MicroLoanCount}/{5 + (_controller.CurrentHero?.ExtraMicroLoans ?? 0)}";
             lblPenalty.Text = $"Штраф за долги: {_controller.SpinPenalty}";
             lblRiggingUses.Text = $"Подкрутка: {_controller.RiggingUsesLeft}/3";
 
             int health = _controller.Health;
-            string hearts = new string('♥', health) + new string('♡', 5 - health);
+            string hearts = new string('♥', health) + new string('♡', (_controller.CurrentHero?.StartingHealth ?? 5) - health);
             lblHealth.Text = $"Здоровье: {hearts}";
 
             lblCollectionChance.Text = $"Шанс коллекторов: {_controller.CollectionChance:P0}";
@@ -180,19 +309,42 @@ namespace HamsterSimulator.View
                 btnLoan.Enabled = false;
                 btnMicroLoan.Enabled = false;
                 btnRigging.Enabled = false;
+                if (_btnAbility != null) _btnAbility.Enabled = false;
             }
             else
             {
                 lblGameOver.Visible = false;
                 bool canSpin = !_isAnimating && _controller.Balance >= _controller.TotalSpinCost;
                 btnAction.Enabled = canSpin;
-                btnLoan.Enabled = !_isAnimating && _controller.LoanCount < 3;
-                btnMicroLoan.Enabled = !_isAnimating && _controller.MicroLoanCount < 5;
+                btnLoan.Enabled = !_isAnimating && _controller.LoanCount < (3 + (_controller.CurrentHero?.ExtraLoans ?? 0));
+                btnMicroLoan.Enabled = !_isAnimating && _controller.MicroLoanCount < (5 + (_controller.CurrentHero?.ExtraMicroLoans ?? 0));
                 btnRigging.Enabled = !_isAnimating && _controller.CanUseRigging;
+                if (_btnAbility != null)
+                    _btnAbility.Enabled = _controller.CurrentHero?.IsActiveAbility == true && !_isAnimating && !_controller.IsGameOver;
             }
 
             string[] buttonTexts = { "ДЕП", "ДОДЕП", "ЛАСТ ДЕП" };
             btnAction.Text = buttonTexts[_buttonClickCount % 3];
+        }
+
+        private void VibrateForm()
+        {
+            var original = this.Location;
+            for (int i = 0; i < 8; i++)
+            {
+                this.Location = new Point(original.X + (i % 2 == 0 ? 6 : -6), original.Y + (i % 3 == 0 ? 4 : -4));
+                System.Threading.Thread.Sleep(15);
+            }
+            this.Location = original;
+        }
+
+        private void RedFlash()
+        {
+            var originalBack = this.BackColor;
+            this.BackColor = Color.DarkRed;
+            Timer timer = new Timer { Interval = 200 };
+            timer.Tick += (s, e) => { this.BackColor = originalBack; timer.Stop(); timer.Dispose(); };
+            timer.Start();
         }
 
         public void TriggerCollectorsEffect()
@@ -241,6 +393,7 @@ namespace HamsterSimulator.View
             btnLoan.Enabled = false;
             btnMicroLoan.Enabled = false;
             btnRigging.Enabled = false;
+            if (_btnAbility != null) _btnAbility.Enabled = false;
 
             _isAnimating = true;
             _animationStartTime = DateTime.Now;
@@ -431,7 +584,7 @@ namespace HamsterSimulator.View
             // 
             this.lblHealth.AutoSize = true;
             this.lblHealth.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.lblHealth.Location = new System.Drawing.Point(23, 25);
+            this.lblHealth.Location = new System.Drawing.Point(476, 192);
             this.lblHealth.Name = "lblHealth";
             this.lblHealth.Size = new System.Drawing.Size(149, 29);
             this.lblHealth.TabIndex = 11;
@@ -441,7 +594,7 @@ namespace HamsterSimulator.View
             // 
             this.lblCollectionChance.AutoSize = true;
             this.lblCollectionChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblCollectionChance.Location = new System.Drawing.Point(23, 78);
+            this.lblCollectionChance.Location = new System.Drawing.Point(823, 196);
             this.lblCollectionChance.Name = "lblCollectionChance";
             this.lblCollectionChance.Size = new System.Drawing.Size(225, 25);
             this.lblCollectionChance.TabIndex = 12;
@@ -461,7 +614,7 @@ namespace HamsterSimulator.View
             // 
             this.lblWinStreak.AutoSize = true;
             this.lblWinStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.lblWinStreak.Location = new System.Drawing.Point(913, 202);
+            this.lblWinStreak.Location = new System.Drawing.Point(900, 254);
             this.lblWinStreak.Name = "lblWinStreak";
             this.lblWinStreak.Size = new System.Drawing.Size(99, 25);
             this.lblWinStreak.TabIndex = 14;
@@ -471,7 +624,7 @@ namespace HamsterSimulator.View
             // 
             this.lblMaxStreak.AutoSize = true;
             this.lblMaxStreak.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lblMaxStreak.Location = new System.Drawing.Point(1064, 202);
+            this.lblMaxStreak.Location = new System.Drawing.Point(1005, 258);
             this.lblMaxStreak.Name = "lblMaxStreak";
             this.lblMaxStreak.Size = new System.Drawing.Size(90, 20);
             this.lblMaxStreak.TabIndex = 15;

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HamsterSimulator.Model
 {
@@ -10,44 +8,38 @@ namespace HamsterSimulator.Model
         private const double HamsterWarmupCoefficient = 1.15;
         private readonly Random _random;
 
-        public int Balance { get; set; }
-        public int LoanCount { get; set; }
-        public int MicroLoanCount { get; set; }
+        public int Balance { get; private set; }
+        public int LoanCount { get; private set; }
+        public int MicroLoanCount { get; private set; }
         public int[] CurrentNumbers { get; private set; } = new int[7];
         public bool IsGameOver { get; private set; }
         public string GameOverMessage { get; private set; } = string.Empty;
 
-        public int LudoDopamine { get; set; }
+        // ЛудоДофамин
+        public int LudoDopamine { get; private set; }
         private int _winStreak = 0;
         private int _maxWinStreak = 0;
         private const int WinTarget = 25;
 
-        public int Health { get; set; }
+        // Здоровье и коллекторы
+        public int Health { get; private set; }
         private double _currentCollectionChance;
         private const double InitialCollectionChance = 0.0;
         private const double LoanChanceIncrease = 0.05;
         private const double MicroLoanChanceIncrease = 0.03;
         private const double PostTriggerChanceDecrease = 0.05;
 
+        // Подкрутка
         private int _riggingUsesLeft;
         private bool _isNextSpinRigged;
-
-        // Герои
-        private List<Hero> _heroesPool;
-        private int _currentHeroIndex;
-        public bool KalivanUsed { get; set; } = false;
 
         public int RiggingUsesLeft => _riggingUsesLeft;
         public bool CanUseRigging => !IsGameOver && _riggingUsesLeft > 0;
         public double CurrentCollectionChance => _currentCollectionChance;
         public int WinStreak => _winStreak;
         public int MaxWinStreak => _maxWinStreak;
-        public Hero CurrentHero { get; private set; }
 
         public event Action OnCollectorsTriggered;
-        public event Action<Hero> OnHeroSwitched;
-        public event Action<int> OnKalivanGuessRequest;  // запрос ввода числа
-        public event Action<int, int> OnKalivanResult;   // (игрок, компьютер)
 
         public GameState() : this(new Random()) { }
 
@@ -73,78 +65,6 @@ namespace HamsterSimulator.Model
             GameOverMessage = string.Empty;
             for (int i = 0; i < CurrentNumbers.Length; i++)
                 CurrentNumbers[i] = 0;
-            KalivanUsed = false;
-            // Если есть герои, они будут переинициализированы через InitializeHeroes
-            if (_heroesPool != null && _heroesPool.Any())
-                SwitchToHero(0);
-            else
-                CheckGameStatus();
-        }
-
-        public void InitializeHeroes(List<Hero> heroes)
-        {
-            _heroesPool = new List<Hero>(heroes);
-            _currentHeroIndex = 0;
-            SwitchToHero(0);
-        }
-
-        private void SwitchToHero(int index)
-        {
-            if (index < 0 || index >= _heroesPool.Count) return;
-            CurrentHero = _heroesPool[index];
-
-            // Сброс параметров героя (кроме дофамина и рекорда серии)
-            Balance = CurrentHero.StartingBalance;
-            Health = CurrentHero.StartingHealth;
-            LoanCount = 0;
-            MicroLoanCount = 0;
-            _riggingUsesLeft = 3 + CurrentHero.ExtraRigging;
-            _currentCollectionChance = Math.Max(0, InitialCollectionChance - CurrentHero.CollectionResistance);
-            KalivanUsed = false;
-            _isNextSpinRigged = false;
-
-            OnHeroSwitched?.Invoke(CurrentHero);
-        }
-
-        public void SwitchToRandomRemainingHero()
-        {
-            if (_heroesPool == null || _heroesPool.Count <= 1)
-            {
-                // Нет больше героев – игра окончена
-                IsGameOver = true;
-                GameOverMessage = "Все герои пали... Игра окончена.";
-                return;
-            }
-            // Удаляем текущего героя из пула
-            _heroesPool.RemoveAt(_currentHeroIndex);
-            // Выбираем случайного из оставшихся
-            _currentHeroIndex = _random.Next(_heroesPool.Count);
-            SwitchToHero(_currentHeroIndex);
-        }
-
-        public void ActivateCurrentHeroAbility()
-        {
-            if (CurrentHero != null && CurrentHero.IsActiveAbility && CurrentHero.OnActivate != null && !IsGameOver)
-            {
-                CurrentHero.OnActivate(this);
-            }
-        }
-
-        public void RequestKalivanGuess()
-        {
-            int randomNumber = _random.Next(1, 11);
-            OnKalivanGuessRequest?.Invoke(randomNumber);
-        }
-
-        public void ApplyKalivanResult(int playerGuess, int computerNumber)
-        {
-            if (playerGuess == computerNumber)
-                Balance *= 3;
-            else if (Math.Abs(playerGuess - computerNumber) == 1)
-                Balance *= 2;
-            else
-                Balance /= 2;
-            OnKalivanResult?.Invoke(playerGuess, computerNumber);
             CheckGameStatus();
         }
 
@@ -155,8 +75,7 @@ namespace HamsterSimulator.Model
 
         public int CalculateTotalSpinCost()
         {
-            int heroCost = CurrentHero?.SpinCostExtra ?? 0;
-            return 10 + CalculateSpinPenalty() + heroCost;
+            return 10 + CalculateSpinPenalty();
         }
 
         public void Spin()
@@ -191,6 +110,7 @@ namespace HamsterSimulator.Model
                 isWin = ApplyCombinationEffects();
             }
 
+            // Начисление ЛудоДофамина и обновление серии
             if (isWin)
             {
                 _winStreak++;
@@ -204,6 +124,7 @@ namespace HamsterSimulator.Model
                 _winStreak = 0;
             }
 
+            // Проверка победы
             if (LudoDopamine >= WinTarget && !IsGameOver)
             {
                 IsGameOver = true;
@@ -218,8 +139,8 @@ namespace HamsterSimulator.Model
         public void TakeLoan()
         {
             if (IsGameOver) return;
-            int maxLoans = 3 + (CurrentHero?.ExtraLoans ?? 0);
-            if (LoanCount < maxLoans)
+
+            if (LoanCount < 3)
             {
                 LoanCount++;
                 Balance += 50;
@@ -231,8 +152,8 @@ namespace HamsterSimulator.Model
         public void TakeMicroLoan()
         {
             if (IsGameOver) return;
-            int maxMicro = 5 + (CurrentHero?.ExtraMicroLoans ?? 0);
-            if (MicroLoanCount < maxMicro)
+
+            if (MicroLoanCount < 5)
             {
                 MicroLoanCount++;
                 Balance += 30;
@@ -258,9 +179,8 @@ namespace HamsterSimulator.Model
             if (IsGameOver) return;
             if (Health <= 0)
             {
-                SwitchToRandomRemainingHero();
-                if (!IsGameOver) return;
-                else return;
+                TriggerGameOverByCollectors();
+                return;
             }
 
             double roll = _random.NextDouble();
@@ -272,27 +192,33 @@ namespace HamsterSimulator.Model
 
                 if (Health <= 0)
                 {
-                    SwitchToRandomRemainingHero();
+                    TriggerGameOverByCollectors();
                 }
             }
         }
 
+        private void TriggerGameOverByCollectors()
+        {
+            IsGameOver = true;
+            GameOverMessage = "Тебя нашли коллекторы, прощай...";
+        }
+
+        /// <returns>True, если был выигрыш (прибавка к балансу)</returns>
         private bool ApplyCombinationEffects()
         {
             double luckIndex = CalculateLuckIndex();
             bool isWin = false;
-            double multiplier = CurrentHero?.WinBonusMultiplier ?? 1.0;
 
             if (luckIndex > 14.0)
             {
                 if (AllNumbersSame())
                 {
-                    Balance += (int)(100 * multiplier);
+                    Balance += 100;
                     isWin = true;
                 }
                 else
                 {
-                    Balance += (int)(50 * multiplier);
+                    Balance += 50;
                     isWin = true;
                 }
             }
@@ -333,15 +259,10 @@ namespace HamsterSimulator.Model
 
         private void CheckForGameOver()
         {
-            if (Balance <= 0 && LoanCount >= (3 + (CurrentHero?.ExtraLoans ?? 0)) &&
-                MicroLoanCount >= (5 + (CurrentHero?.ExtraMicroLoans ?? 0)))
+            if (Balance <= 0 && LoanCount >= 3 && MicroLoanCount >= 5)
             {
-                SwitchToRandomRemainingHero();
-                if (_heroesPool == null || _heroesPool.Count == 0)
-                {
-                    IsGameOver = true;
-                    GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
-                }
+                IsGameOver = true;
+                GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
             }
             if (Balance < 0) Balance = 0;
         }
@@ -351,17 +272,12 @@ namespace HamsterSimulator.Model
             if (IsGameOver) return;
 
             bool cannotSpin = Balance < CalculateTotalSpinCost();
-            bool noLoansLeft = LoanCount >= (3 + (CurrentHero?.ExtraLoans ?? 0)) &&
-                               MicroLoanCount >= (5 + (CurrentHero?.ExtraMicroLoans ?? 0));
+            bool noLoansLeft = LoanCount >= 3 && MicroLoanCount >= 5;
 
             if (cannotSpin && noLoansLeft)
             {
-                SwitchToRandomRemainingHero();
-                if (_heroesPool == null || _heroesPool.Count == 0)
-                {
-                    IsGameOver = true;
-                    GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
-                }
+                IsGameOver = true;
+                GameOverMessage = "Ты всё слил в нулину, побрили хомяка :(";
             }
         }
     }
