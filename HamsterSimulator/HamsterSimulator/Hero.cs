@@ -67,7 +67,7 @@ namespace HamsterSimulator.Model
             {
                 Name = "Хомячьё",
                 Description = "Много здоровья (10), реально много.",
-                StartingBalance = 50,
+                StartingBalance = 100,
                 StartingHealth = 10,
                 IsActiveAbility = false
             };
@@ -77,7 +77,6 @@ namespace HamsterSimulator.Model
         {
             if (game.KalivanUsed) return;
             game.KalivanUsed = true;
-            // Запрашиваем ввод через событие (обрабатывается в MainForm)
             game.RequestKalivanGuess();
         }
     }
